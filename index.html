@@ -1,0 +1,2610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformación Digital & Innovación - Proyectos Otamendi & Medicus</title>
+    
+    <!-- CDNs Requeridos -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Firebase App (Compat Modulo) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // Configuración de Firebase JS SDK
+        const firebaseConfig = {
+            apiKey: "AIzaSyDt0q9pA_ps3jJf15ocLdtS3azBltVp1Eo",
+            authDomain: "tablero-callcenter-som.firebaseapp.com",
+            databaseURL: "https://tablero-callcenter-som-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "tablero-callcenter-som",
+            storageBucket: "tablero-callcenter-som.firebasestorage.app",
+            messagingSenderId: "907944469341",
+            appId: "1:907944469341:web:d2d9ede0fd70190bbbbeb4",
+            measurementId: "G-EQ8VV36474"
+        };
+
+        // Inicialización de Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <style>
+        :root {
+            /* Colores Otamendi (Bordó) */
+            --bordo-principal: #6B1D2F;
+            --bordo-hover: #521523;
+            --bordo-suave: #FFF0F3;
+            
+            /* Colores Medicus (Azul Oscuro) */
+            --azul-principal: #0F2C59;
+            --azul-hover: #0B2042;
+            --azul-suave: #EBF3FA;
+
+            --gris-oscuro: #1A202C;
+            --gris-texto: #4A5568;
+            --dorado: #D4AF37;
+            --dorado-suave: #FAF6F0;
+            --verde-exito: #2E7D32;
+            --verde-bg: #E8F5E9;
+            --amarillo-advertencia: #E65100;
+            --amarillo-bg: #FFF3E0;
+            --blanco: #FFFFFF;
+            --gris-claro: #F8FAFC;
+            --gris-borde: #E2E8F0;
+            --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+
+            /* Estética WhatsApp Simulación Incrustada */
+            --wa-header-bg: #075e54;
+            --wa-chat-bg: #ece5dd;
+            --wa-msg-in: #ffffff;
+            --wa-msg-out: #dcf8c6;
+            --wa-msg-text: #111111;
+            --wa-meta-text: #777777;
+            --font-mono: 'Consolas', 'Courier New', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F1F5F9;
+            color: var(--gris-oscuro);
+            min-height: 100vh;
+        }
+
+        /* Modal y Widget de Login */
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: var(--blanco);
+            padding: 32px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            border: 1px solid var(--gris-borde);
+        }
+        .login-box h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--primary, #0F2C59);
+        }
+        .login-box p {
+            font-size: 13px;
+            color: var(--gris-texto);
+            margin-bottom: 20px;
+        }
+        .login-box .input-field {
+            width: 100%;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        .login-box .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--azul-principal);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .login-box .btn-submit:hover { opacity: 0.9; }
+        .user-widget {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 13px;
+            margin-left: auto;
+        }
+        .btn-logout {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        [contenteditable="true"] {
+            outline: 1px dashed transparent;
+            transition: outline 0.2s, background 0.2s;
+            border-radius: 4px;
+            padding: 1px 4px;
+        }
+
+        [contenteditable="true"]:hover {
+            outline: 1px dashed var(--dorado);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px solid var(--bordo-principal);
+            background: #FFFFFF;
+            color: var(--gris-oscuro);
+        }
+
+        /* Sistema de Pestañas Principales (Otamendi / Medicus) */
+        .main-tab-bar {
+            background: #0D1117;
+            padding: 10px 32px 0 32px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #21262D;
+            align-items: center;
+        }
+
+        .main-tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: #161B22;
+            color: #8B949E;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .main-tab-btn:hover {
+            background: #21262D;
+            color: #C9D1D9;
+        }
+
+        .main-tab-btn.active-otamendi {
+            background: var(--bordo-principal);
+            color: var(--blanco);
+        }
+
+        .main-tab-btn.active-medicus {
+            background: var(--azul-principal);
+            color: var(--blanco);
+        }
+
+        .tab-content-view {
+            display: none;
+        }
+
+        .tab-content-view.active {
+            display: block;
+        }
+
+        /* Estilos específicos según entidad */
+        .theme-otamendi {
+            --primary: var(--bordo-principal);
+            --primary-hover: var(--bordo-hover);
+            --primary-suave: var(--bordo-suave);
+            --hero-bg: linear-gradient(135deg, #4A121F 0%, var(--bordo-principal) 60%, #8C273E 100%);
+            --brand-wa: #800020;
+            --brand-wa-light: #a31838;
+        }
+
+        .theme-medicus {
+            --primary: var(--azul-principal);
+            --primary-hover: var(--azul-hover);
+            --primary-suave: var(--azul-suave);
+            --hero-bg: linear-gradient(135deg, #07162C 0%, var(--azul-principal) 60%, #1A4480 100%);
+            --brand-wa: #0F2C59;
+            --brand-wa-light: #1D4ED8;
+        }
+
+        .landing-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gris-borde);
+            padding: 12px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .brand-logo .logo-box {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--blanco);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            border: 2px solid var(--dorado);
+        }
+
+        .nav-filters {
+            display: flex;
+            gap: 8px;
+            background: var(--gris-claro);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--gris-borde);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--blanco);
+        }
+
+        .hero-banner {
+            background: var(--hero-bg);
+            color: var(--blanco);
+            padding: 48px 32px 64px 32px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: #E2E8F0;
+            max-width: 700px;
+            margin: 0 auto 28px auto;
+        }
+
+        .hero-global-metrics {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .global-metric-badge {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 20px 100px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .project-section {
+            background: var(--blanco);
+            border-radius: 20px;
+            border: 1px solid var(--gris-borde);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .project-header {
+            padding: 28px 36px 20px 36px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+            border-bottom: 1px solid var(--gris-borde);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .project-title-group h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            outline: none;
+        }
+
+        .positive-impact-tag {
+            background: var(--verde-bg);
+            color: var(--verde-exito);
+            border: 1px solid #A5D6A7;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-toolbar {
+            padding: 10px 36px;
+            background: var(--gris-claro);
+            border-bottom: 1px dashed var(--gris-borde);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .kpi-tools-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kpi-select-preset {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--gris-borde);
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .btn-kpi-action {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid var(--gris-borde);
+            background: var(--blanco);
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-save-proj {
+            background: #10B981;
+            color: white;
+            border-color: #059669;
+        }
+        .btn-save-proj:hover { background: #059669; }
+
+        .btn-delete-proj {
+            background: #EF4444;
+            color: white;
+            border-color: #DC2626;
+        }
+        .btn-delete-proj:hover { background: #DC2626; }
+
+        .kpis-grid {
+            padding: 24px 36px 12px 36px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .kpi-card-highlight {
+            background: var(--blanco);
+            border: 1px solid var(--gris-borde);
+            border-top: 4px solid var(--primary);
+            border-radius: 12px;
+            padding: 16px 18px;
+            position: relative;
+        }
+
+        .kpi-card-highlight.status-card {
+            border-top-color: var(--verde-exito);
+            background: #FAFAF9;
+        }
+
+        .kpi-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .kpi-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: var(--primary-suave);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kpi-data input.kpi-label-input {
+            border: none;
+            font-size: 11px;
+            color: var(--gris-texto);
+            text-transform: uppercase;
+            font-weight: 700;
+            width: 100%;
+            background: transparent;
+            outline: none;
+        }
+
+        .kpi-data input.kpi-val-input {
+            border: none;
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--gris-oscuro);
+            width: 100%;
+            outline: none;
+            background: transparent;
+            margin-top: 2px;
+        }
+
+        .status-color-select {
+            border: 1px solid var(--gris-borde);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 6px;
+            cursor: pointer;
+        }
+
+        .status-color-select.color-verde { background: var(--verde-bg); color: var(--verde-exito); }
+        .status-color-select.color-amarillo { background: var(--amarillo-bg); color: var(--amarillo-advertencia); }
+
+        .btn-remove-kpi {
+            background: none;
+            border: none;
+            color: #A0AEC0;
+            cursor: pointer;
+        }
+
+        .project-body {
+            padding: 16px 36px 36px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .journey-card {
+            background: var(--blanco);
+            border: 1px solid var(--gris-borde);
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 280px;
+        }
+
+        .journey-card.before { background: #F8FAFC; border-left: 4px solid #94A3B8; }
+        .journey-card.now { background: #FFF; border-left: 5px solid var(--verde-exito); }
+        .journey-card.next { background: var(--dorado-suave); border-left: 4px solid var(--dorado); }
+
+        .journey-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .journey-card.before .journey-header { color: #475569; }
+        .journey-card.now .journey-header { color: var(--verde-exito); }
+        .journey-card.next .journey-header { color: #B78103; }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gris-texto);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--gris-oscuro);
+            outline: none;
+            background: var(--blanco);
+            box-sizing: border-box;
+        }
+
+        textarea.form-control {
+            resize: none;
+            overflow-y: hidden;
+            min-height: 75px;
+            line-height: 1.5;
+        }
+
+        .bottom-panels-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .side-box {
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--gris-borde);
+            background: var(--blanco);
+        }
+
+        .side-box.sponsor-box {
+            background: linear-gradient(135deg, #FFFDF9 0%, #FAF6F0 100%);
+            border-color: var(--dorado);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-box h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Seccion de Graficos Optimizada: Mayor Tamaño y Maxima Legibilidad */
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .chart-card {
+            background: var(--blanco);
+            border: 1px solid var(--gris-borde);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .chart-card h4 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #FAFAFA;
+            border: 1px solid var(--gris-borde);
+            border-radius: 12px;
+            padding: 16px;
+            overflow: hidden;
+        }
+
+        .chart-card img {
+            width: 100%;
+            height: auto;
+            max-height: 800px;
+            object-fit: contain;
+            border-radius: 6px;
+            filter: contrast(1.05) brightness(1.02); /* Mejora de legibilidad */
+        }
+
+        .phone-column-embed {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .phone-column-embed .column-header {
+            width: 100%;
+            background: #202C33;
+            border: 1px solid #222D34;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+            color: #E9EDEF;
+        }
+
+        .phone-column-embed .column-header h3 {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #00A884;
+        }
+
+        .phone-column-embed .stats-bar {
+            display: flex;
+            justify-content: center;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #222D34;
+            font-size: 0.8rem;
+        }
+
+        .phone-column-embed .stat-val { 
+            font-family: var(--font-mono); 
+            font-weight: bold; 
+            font-size: 1rem; 
+            display: block; 
+            margin-top: 2px;
+            color: #00A884;
+        }
+
+        .phone-column-embed .column-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #222D34;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .phone-column-embed .btn-sm {
+            background: var(--brand-wa);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .phone-column-embed .btn-sm:hover {
+            background: var(--brand-wa-light);
+        }
+
+        .phone-column-embed .btn-sm-secondary {
+            background: #3B4A54;
+            color: #E9EDEF;
+        }
+
+        .phone-column-embed select.select-sm {
+            background: #202C33;
+            color: #E9EDEF;
+            border: 1px solid #3B4A54;
+            padding: 4px 6px;
+            border-radius: 6px;
+            outline: none;
+            font-size: 0.75rem;
+        }
+
+        .phone-column-embed .phone-frame {
+            width: 100%;
+            height: 520px;
+            background: #111111;
+            border-radius: 28px;
+            padding: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-column-embed .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--wa-chat-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-column-embed .wa-header {
+            background: var(--wa-header-bg);
+            color: white;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .phone-column-embed .wa-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 2px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .phone-column-embed .chat-body {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background-image: radial-gradient(#d4c7b8 1px, transparent 1px);
+            background-size: 12px 12px;
+        }
+
+        .phone-column-embed .msg {
+            max-width: 85%;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            line-height: 1.3;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+            word-break: break-word;
+            position: relative;
+            color: var(--wa-msg-text);
+        }
+
+        .phone-column-embed .msg-in { 
+            align-self: flex-start; 
+            background: var(--wa-msg-in); 
+            border-top-left-radius: 0px;
+        }
+
+        .phone-column-embed .msg-out { 
+            align-self: flex-end; 
+            background: var(--wa-msg-out); 
+            border-top-right-radius: 0px;
+        }
+
+        .phone-column-embed .msg-meta {
+            font-size: 0.65rem;
+            color: var(--wa-meta-text);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .phone-column-embed .milestone-banner {
+            align-self: center;
+            background: #e1f5fe;
+            border: 1px solid #b3e5fc;
+            color: #0277bd;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 4px 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .phone-column-embed .wa-footer { 
+            background: #f0f0f0; 
+            padding: 6px 10px; 
+            display: flex;
+            align-items: center;
+        }
+        
+        .phone-column-embed .wa-input { 
+            background: #ffffff; 
+            border-radius: 20px; 
+            padding: 6px 12px; 
+            font-size: 0.78rem; 
+            color: #888888; 
+            width: 100%;
+            border: 1px solid #dddddd;
+        }
+
+        /* Estilos Prequirúrgico Reanimado */
+        .wa-preq-frame {
+            width: 100%;
+            height: 520px;
+            background: #1c1c1e;
+            border-radius: 36px;
+            padding: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wa-preq-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #E5DDD5;
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .wa-preq-header {
+            background-color: #075E54;
+            color: #FFFFFF;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .wa-preq-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 12px;
+        }
+
+        .wa-preq-chat {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0);
+            background-size: 12px 12px;
+            scroll-behavior: smooth;
+        }
+
+        .wa-preq-msg {
+            max-width: 85%;
+            padding: 7px 9px 6px 9px;
+            border-radius: 8.5px;
+            position: relative;
+            font-size: 12.5px;
+            line-height: 17px;
+            color: #111B21;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            word-break: break-word;
+        }
+
+        .wa-preq-msg.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wa-preq-msg.received {
+            align-self: flex-start;
+            background-color: #FFFFFF;
+            border-top-left-radius: 0;
+        }
+
+        .wa-preq-msg.sent {
+            align-self: flex-end;
+            background-color: #E2F7CB;
+            border-top-right-radius: 0;
+        }
+
+        .wa-preq-meta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 3px;
+            font-size: 10px;
+            color: #667781;
+            float: right;
+            margin-left: 10px;
+            margin-top: 2px;
+        }
+
+        .wa-preq-attachment {
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            gap: 8px;
+        }
+
+        .wa-preq-pdf-icon {
+            width: 26px;
+            height: 32px;
+            background-color: #E53935;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 8px;
+            flex-shrink: 0;
+        }
+
+        .wa-preq-typing {
+            align-self: flex-start;
+            background-color: #FFFFFF;
+            padding: 8px 14px;
+            border-radius: 8.5px;
+            border-top-left-radius: 0;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+
+        .wa-preq-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #667781;
+            border-radius: 50%;
+            animation: blink 1.4s infinite ease-in-out both;
+        }
+
+        .wa-preq-dot:nth-child(1) { animation-delay: -0.32s; }
+        .wa-preq-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes blink {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Totem Auto-Recepción */
+        .totem-frame {
+            width: 100%;
+            max-width: 680px;
+            height: 520px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            color: #000;
+            text-align: left;
+        }
+
+        .totem-header {
+            background-color: #31a2fc;
+            color: #ffffff;
+            text-align: center;
+            padding: 8px 15px;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .totem-body {
+            flex: 1;
+            position: relative;
+            background: radial-gradient(circle at 90% 80%, rgba(255,255,255,0.8) 0%, rgba(215,237,250,0.6) 40%, #d8ebf7 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .totem-body .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 20px 30px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .totem-body .screen.active {
+            display: flex;
+        }
+
+        .totem-body .patient-bar {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.65);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            border-radius: 2px;
+        }
+
+        .totem-body .btn-exit {
+            background-color: #ff2e00;
+            color: white;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .totem-body .btn-exit svg {
+            fill: white;
+            width: 22px;
+            height: 22px;
+        }
+
+        .totem-body .screen-title {
+            color: #222222;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .totem-body .btn-totem {
+            width: 320px;
+            padding: 16px 10px;
+            margin: 10px 0;
+            background-color: #0882f0;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 19px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .totem-body .btn-totem:active {
+            background-color: #0066cc;
+            transform: translateY(1px);
+        }
+
+        .totem-body .btn-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .totem-body .btn-row .btn-totem {
+            width: 130px;
+            padding: 12px;
+            font-size: 18px;
+        }
+
+        .totem-body .data-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 20px;
+            color: #111;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .totem-body .data-grid div {
+            font-weight: 600;
+        }
+        .totem-body .data-grid span {
+            font-weight: 400;
+            color: #555;
+        }
+
+        .totem-body .table-container {
+            width: 100%;
+            background: white;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .totem-body .turnos-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .totem-body .turnos-table th {
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #eee;
+            padding: 6px 10px;
+            font-size: 11px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .totem-body .turnos-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            border-right: 1px solid #eee;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .totem-body .turnos-table td.hora {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .totem-body .turnos-table td.esp {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .totem-body .btn-select-check {
+            background-color: #0882f0;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .totem-body .select-cobertura {
+            width: 360px;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+            border: 1px solid #0882f0;
+            background: white;
+            border-radius: 2px;
+            text-align: center;
+            text-align-last: center;
+            outline: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%3a555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 18px;
+        }
+
+        .totem-body .input-totem {
+            width: 300px;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            border: 1px solid #ccc;
+            margin: 15px 0;
+            outline: none;
+        }
+
+        .totem-body .ticket-paper {
+            background-color: #fff;
+            width: 260px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border-radius: 2px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #000;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .totem-body .ticket-paper .header { font-weight: bold; font-size: 13px; }
+        .totem-body .ticket-paper .sector { font-weight: bold; margin: 8px 0; font-size: 11px; }
+        .totem-body .ticket-paper .code { font-size: 38px; font-weight: 800; margin: 10px 0; line-height: 1; }
+        .totem-body .ticket-paper .msg { font-weight: bold; font-size: 11px; margin: 8px 0; }
+        .totem-body .ticket-paper .footer { font-size: 10px; text-align: left; margin-top: 15px; }
+
+        .totem-body .subtext {
+            font-size: 12px;
+            color: #555;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        .project-footer-band {
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary) 70%, var(--dorado) 100%);
+        }
+
+        .btn-save-initiatives {
+            position: absolute; top: 12px; right: 14px;
+            padding: 5px 9px; border: 1px solid rgba(255,255,255,.16);
+            border-radius: 7px; background: rgba(255,255,255,.07);
+            color: #CBD5E1; font-size: 10px; font-weight: 600;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+            opacity: .82; transition: opacity .2s, background .2s;
+        }
+        .btn-save-initiatives:hover { opacity: 1; background: rgba(255,255,255,.12); }
+
+        .action-bar-floating {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; background: rgba(26, 32, 44, 0.92);
+            backdrop-filter: blur(12px); padding: 12px 28px; border-radius: 40px;
+            display: flex; align-items: center; gap: 20px;
+        }
+
+        .btn-action {
+            padding: 9px 18px; border: none; border-radius: 20px;
+            font-weight: 700; font-size: 12px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+
+        .btn-primary { background-color: var(--primary); color: var(--blanco); }
+        .btn-secondary { background-color: var(--dorado); color: var(--gris-oscuro); }
+
+        @media print {
+            .no-print, .landing-header, .action-bar-floating, .btn-remove-kpi, .project-toolbar, .main-tab-bar, .login-overlay { display: none !important; }
+            body { background: white; }
+            .project-section { box-shadow: none; border: 1px solid #CCC; margin-bottom: 20px; }
+            .tab-content-view { display: block !important; }
+        }
+
+        @media (max-width: 900px) {
+            .journey-grid, .bottom-panels-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Modal de Login para Firebase Autenticación -->
+    <div id="loginOverlay" class="login-overlay no-print" style="display: none;">
+        <div class="login-box">
+            <h2>Autenticación Requerida</h2>
+            <p>Inicia sesión con tu cuenta corporativa para editar y guardar cambios en la base de datos.</p>
+            <input type="email" id="loginEmail" class="input-field" placeholder="Correo electrónico">
+            <input type="password" id="loginPass" class="input-field" placeholder="Contraseña">
+            <button class="btn-submit" onclick="loginWithFirebase()">Ingresar</button>
+            <p id="loginError" style="color: #EF4444; margin-top: 10px; font-size: 12px; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Bar de Selección de Pestaña Principal -->
+    <div class="main-tab-bar no-print">
+        <button class="main-tab-btn active-otamendi" id="btn-tab-otamendi" onclick="switchMainTab('otamendi')">
+            <i data-lucide="building-2" size="18"></i> Proyectos Otamendi
+        </button>
+        <button class="main-tab-btn" id="btn-tab-medicus" onclick="switchMainTab('medicus')">
+            <i data-lucide="cross" size="18"></i> Proyectos Medicus
+        </button>
+        <div class="user-widget" id="userWidget" style="display: none;">
+            <span id="userEmailLabel"></span>
+            <button class="btn-logout" onclick="logoutFirebase()">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 1: PROYECTOS OTAMENDI (BORDÓ)
+    =========================================== -->
+    <div id="tab-otamendi" class="tab-content-view theme-otamendi active">
+        <header class="landing-header no-print">
+            <div class="brand-logo">
+                <div class="logo-box" contenteditable="true">SO</div>
+                <div>
+                    <div style="line-height: 1.1;" contenteditable="true">Sanatorio Otamendi</div>
+                    <div style="font-size: 11px; color: var(--gris-texto); font-weight: 600;" contenteditable="true">Transformación Digital & PMO</div>
+                </div>
+            </div>
+
+            <div class="nav-filters" id="navFilters-otamendi">
+                <button class="filter-btn active" onclick="filterProjects('otamendi', 'all', this)">
+                    <i data-lucide="layout-grid" size="14"></i> Todos
+                </button>
+                <button class="filter-btn" onclick="filterProjects('otamendi', 'p1', this)">
+                    <i data-lucide="bot" size="14"></i> Bot Call SOM
+                </button>
+                <button class="filter-btn" onclick="filterProjects('otamendi', 'p2', this)">
+                    <i data-lucide="user-check" size="14"></i> Pre Admisión
+                </button>
+                <button class="filter-btn" onclick="filterProjects('otamendi', 'p3', this)">
+                    <i data-lucide="tablet-smartphone" size="14" style="color: #94A3B8;"></i> Auto Recepción
+                </button>
+            </div>
+
+            <button class="btn-action btn-primary" onclick="addNewProject('otamendi')">
+                <i data-lucide="plus-circle" size="14"></i> Nuevo Proyecto
+            </button>
+        </header>
+
+        <section class="hero-banner" style="position: relative;">
+            <button class="btn-save-initiatives no-print" onclick="saveAllChanges()" title="Guardar todos los cambios">
+                <i data-lucide="save" size="13"></i> Guardar cambios
+            </button>
+            <h1 class="hero-title" contenteditable="true">Iniciativas Digitales de Alto Impacto 2026</h1>
+            <p class="hero-subtitle" contenteditable="true">Optimizando la experiencia del paciente y la eficiencia operativa mediante automatizaciones y self-service.</p>
+            
+            <div class="hero-global-metrics">
+                <div class="global-metric-badge">
+                    <i data-lucide="clock" size="24"></i>
+                    <div>
+                        <div contenteditable="true">+24HS Semanales</div>
+                        <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Tiempo Liberado en Agentes</div>
+                    </div>
+                </div>
+                <div class="global-metric-badge">
+                    <i data-lucide="trending-down" size="24"></i>
+                    <div>
+                        <div contenteditable="true">-41% Espera</div>
+                        <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Reducción Demora en Admisión</div>
+                    </div>
+                </div>
+                <div class="global-metric-badge">
+                    <i data-lucide="zap" size="24"></i>
+                    <div>
+                        <div contenteditable="true">36% Éxito</div>
+                        <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Autogestión Directa de Turnos</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <main class="main-container" id="projectsContainer-otamendi">
+            <!-- PROYECTO 1 OTAMENDI -->
+            <section class="project-section" id="project-otamendi-p1" data-project="p1">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <h2 contenteditable="true" class="projectTitle">CX Digital - Bot de Call SOM</h2>
+                        <p contenteditable="true">Atención Automatizada en WhatsApp para Consultas Médicas</p>
+                    </div>
+                    <div class="positive-impact-tag" contenteditable="true">
+                        <i data-lucide="sparkles" size="14"></i> Atención 24/7 en WhatsApp
+                    </div>
+                </div>
+
+                <div class="project-toolbar no-print">
+                    <div class="kpi-tools-group">
+                        <i data-lucide="sliders" size="14" style="color: var(--primary);"></i>
+                        <span style="font-size: 11px; font-weight: 700;">Agregar KPI:</span>
+                        <select class="kpi-select-preset" onchange="addKpiPreset('otamendi-p1', this.value); this.value='';">
+                            <option value="">-- Seleccionar --</option>
+                            <option value="AVANCE">Avance (%)</option>
+                            <option value="TIEMPO">Tiempo Liberado</option>
+                            <option value="PRESUPUESTO">Presupuesto</option>
+                            <option value="CALIDAD">Calidad (%)</option>
+                            <option value="SATISFACCION">NPS Paciente</option>
+                        </select>
+                    </div>
+                    <div class="kpi-tools-group">
+                        <input type="file" id="excel-input-otamendi-p1" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcelData('otamendi-p1', event)">
+                        <button class="btn-kpi-action" onclick="document.getElementById('excel-input-otamendi-p1').click()">
+                            <i data-lucide="file-spreadsheet" size="14"></i> Cargar de Excel
+                        </button>
+                        <button class="btn-kpi-action btn-save-proj" onclick="saveProjectToFirebase('project-otamendi-p1')">
+                            <i data-lucide="save" size="14"></i> Guardar Cambios
+                        </button>
+                        <button class="btn-kpi-action btn-delete-proj" onclick="deleteProjectFromFirebase('project-otamendi-p1')">
+                            <i data-lucide="trash-2" size="14"></i> Eliminar Proyecto
+                        </button>
+                    </div>
+                </div>
+
+                <div class="kpis-grid" id="kpi-container-otamendi-p1">
+                    <div class="kpi-card-highlight">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon"><i data-lucide="pie-chart" size="18"></i></div>
+                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Grado de Avance">
+                            <input type="text" class="kpi-val-input dynamicKpiVal" value="100%">
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-highlight">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon"><i data-lucide="clock" size="18"></i></div>
+                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Tiempo Liberado">
+                            <input type="text" class="kpi-val-input dynamicKpiVal" value="38 hs / 2290 min">
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-highlight">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon"><i data-lucide="users" size="18"></i></div>
+                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Cap. Liberada p/Persona">
+                            <input type="text" class="kpi-val-input dynamicKpiVal" value="5.25 hs (7.3 días)">
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-highlight status-card fixed-status" id="fixed-status-otamendi-p1">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon" id="status-icon-box-otamendi-p1" style="background: var(--verde-bg); color: var(--verde-exito);">
+                                <i data-lucide="activity" size="18"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input kpiLabelStatus" value="Estado Salud">
+                            <input type="text" class="kpi-val-input kpiValStatus" value="Estabilizado">
+                            <select class="status-color-select color-verde no-print" onchange="updateStatusColor('otamendi-p1', this)">
+                                <option value="verde" selected>🟢 Excelente</option>
+                                <option value="amarillo">🟡 Alerta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-body">
+                    <div class="journey-grid">
+                        <div class="journey-card before">
+                            <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Situación Inicial</label>
+                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Gestiones 100% operador dependiente y sujeto strictly a franja horaria laborable, generando cuellos de botella en la atención telefónica.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Métrica Base</label>
+                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">Atención 100% manual</textarea>
+                            </div>
+                        </div>
+
+                        <div class="journey-card now">
+                            <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Estado en Producción</label>
+                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Bot gestor en producción (Fase 1: Solicitud, Cancelación, Reprogramación) totalmente integrado con APIs Thinksoft en tiempo real.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Impacto Conseguido</label>
+                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">38 hs/mes liberadas en agentes</textarea>
+                            </div>
+                        </div>
+
+                        <div class="journey-card next">
+                            <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Fase 2 Proyectada</label>
+                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Filtros de selección por profesional/sede en 1 solo paso y optimización del rango de validación de pacientes.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Objetivo</label>
+                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">Mayor espectro de pacientes atendidos</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN DE GRÁFICOS OPTIMIZADA (MAYOR TAMAÑO Y ALTA LEGIBILIDAD) -->
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h4 contenteditable="true"><i data-lucide="bar-chart-2" size="20"></i> Distribución por Canal de Atención</h4>
+                            <div class="chart-wrapper">
+                                <img src="Code_Generated_Image (7).png" alt="Gráfico de Distribución por Canal">
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 contenteditable="true"><i data-lucide="line-chart" size="20"></i> Evolución Mensual del Volumen</h4>
+                            <div class="chart-wrapper">
+                                <img src="Code_Generated_Image (6).png" alt="Gráfico de Evolución Mensual">
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 contenteditable="true"><i data-lucide="clock" size="20"></i> Tiempos Promedio de Respuesta</h4>
+                            <div class="chart-wrapper">
+                                <img src="Code_Generated_Image (5).png" alt="Gráfico de Tiempos Promedio">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-panels-grid">
+                        <div class="side-box" style="background: #111B21; border-color: #222D34;">
+                            <h3 style="color: #E9EDEF;" contenteditable="true"><i data-lucide="smartphone" size="16" style="color: #00A884;"></i> Vista Interfaz Paciente</h3>
+                            
+                            <iframe title="Simulación WhatsApp" style="width:100%; height:760px; border:0; border-radius:12px; display:block;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;!-- saved from url=(0129)file:///C:/Users/mfmoreno/Desktop/Documentos%20de%20Procesos/TABLEROS%20VARIOS/Bot%20call%20simulacion%20solo%20con%20mejora.html --&gt;
+&lt;html lang=&quot;es&quot;&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+  
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Simulación WhatsApp - Proceso Mejorado&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --brand-bordo: #800020;
+      --brand-bordo-light: #a31838;
+      --bg-light: #f4f6f8;
+      --bg-card: #ffffff;
+      --border-light: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      
+      /* Estética WhatsApp */
+      --wa-header-bg: #075e54;
+      --wa-chat-bg: #ece5dd;
+      --wa-msg-in: #ffffff;
+      --wa-msg-out: #dcf8c6;
+      --wa-msg-text: #111111;
+      --wa-meta-text: #777777;
+      
+      --font-sans: &#x27;Calibri&#x27;, &#x27;Helvetica Neue&#x27;, Helvetica, Arial, sans-serif;
+      --font-mono: &#x27;Consolas&#x27;, &#x27;Courier New&#x27;, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .phone-column {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .column-header {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .column-header h3 {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #059669;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.85rem;
+    }
+
+    .stat-val { 
+      font-family: var(--font-mono); 
+      font-weight: bold; 
+      font-size: 1.1rem; 
+      display: block; 
+      margin-top: 2px;
+      color: #059669;
+    }
+
+    .column-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-light);
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .btn-sm {
+      background: var(--brand-bordo);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-sm:hover {
+      background: var(--brand-bordo-light);
+    }
+
+    .btn-sm-secondary {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .btn-sm-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    select.select-sm {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 5px 8px;
+      border-radius: 6px;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+    }
+
+    .phone-frame {
+      width: 100%;
+      height: 680px;
+      background: #111111;
+      border-radius: 38px;
+      padding: 12px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: var(--wa-chat-bg);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wa-header {
+      background: var(--wa-header-bg);
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .wa-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 2px;
+      font-weight: bold;
+      color: var(--brand-bordo);
+    }
+
+    .wa-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-image: radial-gradient(#d4c7b8 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    .msg {
+      max-width: 82%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.35;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+      word-break: break-word;
+      position: relative;
+      color: var(--wa-msg-text);
+    }
+
+    .msg-in { 
+      align-self: flex-start; 
+      background: var(--wa-msg-in); 
+      border-top-left-radius: 0px;
+    }
+
+    .msg-out { 
+      align-self: flex-end; 
+      background: var(--wa-msg-out); 
+      border-top-right-radius: 0px;
+    }
+
+    .msg-meta {
+      font-size: 0.68rem;
+      color: var(--wa-meta-text);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .milestone-banner {
+      align-self: center;
+      background: #e1f5fe;
+      border: 1px solid #b3e5fc;
+      color: #0277bd;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 6px 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .wa-footer { 
+      background: #f0f0f0; 
+      padding: 8px 12px; 
+      display: flex;
+      align-items: center;
+    }
+    
+    .wa-input { 
+      background: #ffffff; 
+      border-radius: 20px; 
+      padding: 8px 16px; 
+      font-size: 0.85rem; 
+      color: #888888; 
+      width: 100%;
+      border: 1px solid #dddddd;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;div class=&quot;phone-column&quot;&gt;
+    &lt;div class=&quot;column-header&quot;&gt;
+      &lt;h3&gt;🤖 PROCESO 2: &quot;Con Automatización&quot; (Mejorado)&lt;/h3&gt;
+      
+      &lt;div class=&quot;stats-bar&quot;&gt;
+        &lt;div&gt;&lt;span&gt;Tiempo Estimado&lt;/span&gt;&lt;span class=&quot;stat-val&quot; id=&quot;desdeimp-time&quot;&gt;0 min&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;column-controls&quot;&gt;
+        &lt;button class=&quot;btn-sm&quot; id=&quot;btnPlayDesdeimp&quot; onclick=&quot;togglePlay()&quot;&gt;
+          &lt;span id=&quot;playIconDesdeimp&quot;&gt;▶&lt;/span&gt; &lt;span id=&quot;playTextDesdeimp&quot;&gt;Iniciar&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;button class=&quot;btn-sm btn-sm-secondary&quot; onclick=&quot;resetSim()&quot;&gt;🔄 Reiniciar&lt;/button&gt;
+        &lt;select id=&quot;speedDesdeimp&quot; class=&quot;select-sm&quot; onchange=&quot;changeSpeed(this.value)&quot;&gt;
+          &lt;option value=&quot;1&quot; selected=&quot;&quot;&gt;1x&lt;/option&gt;
+          &lt;option value=&quot;1.5&quot;&gt;1.5x&lt;/option&gt;
+          &lt;option value=&quot;2.5&quot;&gt;2.5x&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;phone-frame&quot;&gt;
+      &lt;div class=&quot;phone-screen&quot;&gt;
+        &lt;div class=&quot;wa-header&quot;&gt;
+          &lt;div class=&quot;wa-avatar&quot;&gt;SO&lt;/div&gt;
+          &lt;div&gt;
+            &lt;div style=&quot;font-weight:bold; font-size:0.95rem;&quot;&gt;Sanatorio Otamendi (Mejorado)&lt;/div&gt;
+            &lt;div style=&quot;font-size:0.72rem; opacity:0.9;&quot;&gt;Cuenta de empresa&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;chat-body&quot; id=&quot;desdeimp-chat&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;wa-footer&quot;&gt;&lt;div class=&quot;wa-input&quot;&gt;Escribe un mensaje...&lt;/div&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    const scriptDesdeimp = [
+      { type: &quot;milestone&quot;, text: &quot;📍 Paso 1: Inicio y Validación Autogestionada&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;hola&quot;, time: &quot;2:17 p.m.&quot;, userInteraction: true, duration: 0 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Bienvenido al Sanatorio Otamendi&quot;, time: &quot;2:17 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Por favor elija la opción de su consulta:\n1. Turnos\n2. Prequirúrgico\n3. Guardia Medica\n4. Laboratorio\n5. Presupuestos\n6. Maternidad\n7. Registro Civil\n8. Vacunatorio&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Elija la opción de su consulta:\n1. Consultas Médicas\n2. Holters / Presurometría\n3. Resonancias\n4. Tomografía\n5. Ecografía\n6. Estudios de Cardiología\n7. Endoscopia / Colonoscopía\n8. Volver atrás&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Por favor elija la opción de su consulta:\n1. Solicitar\n2. Reprogramar\n3. Cancelar\n4. Consultar\n5. Volver atrás\n6. Volver al menú principal&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Ingrese su número de documento (sin puntos ni guiones)&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;35996413&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Ingrese su año de nacimiento (el formato debe ser AAAA)&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1993&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Los datos que tenemos registrados son:\n• Nombre Completo: Moreno Fernanda,\n• Tipo documento: DNI,\n• Número documento: 35996413,\n• Fecha de nacimiento: 14/01/1993,\n• Sexo: FEMENINO.\n¿Son Correctos?\n1. Sí ✅\n2. No ❌&quot;, time: &quot;2:19 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:19 p.m.&quot;, userInteraction: true, duration: 2 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;• Su Cobertura Médica es: MEDICUS\n• Su Plan es: GRIS CORPORATE\n• El número de afiliado es: 15708966002\n¿Es correcto?\n1. Sí ✅\n2. No ❌&quot;, time: &quot;2:19 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:19 p.m.&quot;, userInteraction: true, duration: 2 },
+      { type: &quot;milestone&quot;, text: &quot;📍 Paso 2: Selección de Turno en Tiempo Real&quot; },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la sede de su preferencia\n1. Sanatorio Otamendi\n2. Sanatorio Otamendi Consultorios Externos\n3. Consultorios Externos San Miguel\n4. Sanatorio Otamendi Centro Ambulatorio\n5. Volver atrás\n6. Volver al menú principal&quot;, time: &quot;2:19 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;2&quot;, time: &quot;2:19 p.m.&quot;, userInteraction: true, duration: 2 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la opción de su preferencia\n1. Especialidad\n2. Profesional\n3. Volver atrás\n4. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la Especialidad de su preferencia.\n1. Alergia e Inmunología\n2. Cardiología\n3. Cirugía\n4. Clínica Médica\n5. Coloproctología\n6. OLOPROCTOLOGÍA\n7. Dermatología\n8. Ver más\n9. Volver atrás\n10. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;8&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la Especialidad de su preferencia.\n1. Diabetología\n2. Ecografía\n3. Endocrinología\n4. Fonoaudiología\n5. Gastroenterología\n6. Ginecología y Obstetricia\n7. Hematología\n8. Ver más\n9. Volver atrás\n10. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;5&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la Práctica de su preferencia.\n1. Consulta de Gastroenterología\n2. Consulta Gastroenterología\n3. Volver atrás\n4. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la fecha deseada\n1. Jueves 25/06/2026\n2. Viernes 17/07/2026\n3. Lunes 20/07/2026\n4. Miércoles 22/07/2026\n5. Jueves 23/07/2026\n6. Viernes 24/07/2026\n7. Sábado 25/07/2026\n8. Ver más\n9. Volver atrás\n10. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;2&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la hora deseada\n1. 10:20 (GUTIERREZ ARISPE, DANIELA FERNANDA)\n2. 11:40 (GUTIERREZ ARISPE, DANIELA FERNANDA)\n3. Volver atrás\n4. Volver al menú principal&quot;, time: &quot;2:21 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;2&quot;, time: &quot;2:21 p.m.&quot;, userInteraction: true, duration: 4 },
+      { type: &quot;milestone&quot;, text: &quot;📍 Paso 3: Confirmación e Inscripción Directa&quot; },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;🗓️ Reserva de Turno\n• Nombre Paciente: MORENO MARIA FERNANDA,\n• DNI Paciente: 35996413,\n• Lugar: SANATORIO OTAMENDI CONSULTORIOS EXTERNOS,\n• Profesional: GUTIERREZ ARISPE, DANIELA FERNANDA,\n• Especialidad: GASTROENTEROLOGIA,\n• Práctica: CONSULTA DE GASTROENTEROLOGIA,\n• Día y horario: Miércoles 22/07/2026 a las 11:40 horas.\n• Preparación Previa: Sin indicaciones previas\n¿Confirma el turno seleccionado?\n1. Sí ✅\n2. No ❌&quot;, time: &quot;2:21 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:21 p.m.&quot;, userInteraction: true, duration: 4 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;🗓️ Confirmación de su turno médico\n• Gracias: MORENO MARIA FERNANDA,\nLe confirmamos su turno para \nGUTIERREZ ARISPE, DANIELA FERNANDA,\nGASTROENTEROLOGIA,\nCONSULTA DE GASTROENTEROLOGIA\n• El día Miércoles 22/07/2026 a las 11:40 hs.\nEn SANATORIO OTAMENDI CONSULTORIOS EXTERNOS \nDirección PARAGUAY 2302\nRecuerde agendar este número para recibir futuras notificaciones.&quot;, time: &quot;2:21 p.m.&quot; },
+      { type: &quot;milestone&quot;, text: &quot;🎉 ¡Turno Confirmado en THS!&quot; }
+    ];
+
+    const state = { index: 0, timer: null, speed: 1, playing: false };
+
+    function renderMessage(item) {
+      const container = document.getElementById(&quot;desdeimp-chat&quot;);
+
+      if (item.type === &quot;msg&quot;) {
+        const msgDiv = document.createElement(&quot;div&quot;);
+        const isOut = item.sender === &quot;patient&quot;;
+        msgDiv.className = `msg ${isOut ? &#x27;msg-out&#x27; : &#x27;msg-in&#x27;}`;
+        
+        let formattedText = item.text.replace(/\n/g, &#x27;&lt;br&gt;&#x27;);
+        msgDiv.innerHTML = `${formattedText}&lt;div class=&quot;msg-meta&quot;&gt;${item.time}&lt;/div&gt;`;
+        container.appendChild(msgDiv);
+      } else if (item.type === &quot;milestone&quot;) {
+        const div = document.createElement(&quot;div&quot;);
+        div.className = &quot;milestone-banner&quot;;
+        div.innerText = item.text;
+        container.appendChild(div);
+      }
+
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function stepSim() {
+      if (state.index &lt; scriptDesdeimp.length) {
+        const item = scriptDesdeimp[state.index];
+        renderMessage(item);
+
+        if (item.duration !== undefined) {
+          document.getElementById(&quot;desdeimp-time&quot;).innerText = `~${item.duration} min`;
+        }
+
+        state.index++;
+      } else {
+        pauseSim();
+      }
+    }
+
+    function togglePlay() {
+      if (state.playing) {
+        pauseSim();
+      } else {
+        startSim();
+      }
+    }
+
+    function startSim() {
+      state.playing = true;
+      document.getElementById(&quot;playIconDesdeimp&quot;).innerText = &quot;⏸&quot;;
+      document.getElementById(&quot;playTextDesdeimp&quot;).innerText = &quot;Pausar&quot;;
+      state.timer = setInterval(stepSim, 1200 / state.speed);
+    }
+
+    function pauseSim() {
+      state.playing = false;
+      document.getElementById(&quot;playIconDesdeimp&quot;).innerText = &quot;▶&quot;;
+      document.getElementById(&quot;playTextDesdeimp&quot;).innerText = &quot;Continuar&quot;;
+      if (state.timer) clearInterval(state.timer);
+    }
+
+    function resetSim() {
+      pauseSim();
+      state.index = 0;
+      document.getElementById(&quot;desdeimp-chat&quot;).innerHTML = &quot;&quot;;
+      document.getElementById(&quot;desdeimp-time&quot;).innerText = &quot;0 min&quot;;
+      document.getElementById(&quot;playTextDesdeimp&quot;).innerText = &quot;Iniciar&quot;;
+    }
+
+    function changeSpeed(speedValue) {
+      state.speed = parseFloat(speedValue);
+      if (state.playing) {
+        pauseSim();
+        startSim();
+      }
+    }
+  &lt;/script&gt;
+
+&lt;/body&gt;&lt;/html&gt;"></iframe>
+
+                        </div>
+
+                        <div class="side-box sponsor-box">
+                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Validar propuesta de validación de identidad.
+2. Aprobación presupuestaria para inicio de Fase 2.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-footer-band"></div>
+            </section>
+
+            <!-- PROYECTO 2 OTAMENDI -->
+            <section class="project-section" id="project-otamendi-p2" data-project="p2">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <h2 contenteditable="true" class="projectTitle">CX Digital - Pre Admisión</h2>
+                        <p contenteditable="true">Digitalización de la Contactabilidad Quirúrgica</p>
+                    </div>
+                    <div class="positive-impact-tag" contenteditable="true">
+                        <i data-lucide="trending-down" size="14"></i> -41% Demora Pacientes
+                    </div>
+                </div>
+
+                <div class="project-toolbar no-print">
+                    <div class="kpi-tools-group">
+                        <i data-lucide="sliders" size="14" style="color: var(--primary);"></i>
+                        <span style="font-size: 11px; font-weight: 700;">Agregar KPI:</span>
+                        <select class="kpi-select-preset" onchange="addKpiPreset('otamendi-p2', this.value); this.value='';">
+                            <option value="">-- Seleccionar --</option>
+                            <option value="AVANCE">Avance (%)</option>
+                            <option value="TIEMPO">Tiempo de Espera</option>
+                        </select>
+                    </div>
+                    <div class="kpi-tools-group">
+                        <input type="file" id="excel-input-otamendi-p2" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcelData('otamendi-p2', event)">
+                        <button class="btn-kpi-action" onclick="document.getElementById('excel-input-otamendi-p2').click()">
+                            <i data-lucide="file-spreadsheet" size="14"></i> Cargar de Excel
+                        </button>
+                        <button class="btn-kpi-action btn-save-proj" onclick="saveProjectToFirebase('project-otamendi-p2')">
+                            <i data-lucide="save" size="14"></i> Guardar Cambios
+                        </button>
+                        <button class="btn-kpi-action btn-delete-proj" onclick="deleteProjectFromFirebase('project-otamendi-p2')">
+                            <i data-lucide="trash-2" size="14"></i> Eliminar Proyecto
+                        </button>
+                    </div>
+                </div>
+
+                <div class="kpis-grid" id="kpi-container-otamendi-p2">
+                    <div class="kpi-card-highlight">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon"><i data-lucide="pie-chart" size="18"></i></div>
+                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Grado de Avance">
+                            <input type="text" class="kpi-val-input dynamicKpiVal" value="75%">
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-highlight">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon"><i data-lucide="timer" size="18"></i></div>
+                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Reducción Tiempo Espera">
+                            <input type="text" class="kpi-val-input dynamicKpiVal" value="-41% (11.8 a 6.9 min)">
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-highlight status-card fixed-status" id="fixed-status-otamendi-p2">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon" id="status-icon-box-otamendi-p2" style="background: var(--amarillo-bg); color: var(--amarillo-advertencia);">
+                                <i data-lucide="activity" size="18"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input kpiLabelStatus" value="Estado Salud">
+                            <input type="text" class="kpi-val-input kpiValStatus" value="En curso (Dev Fase 2)">
+                            <select class="status-color-select color-amarillo no-print" onchange="updateStatusColor('otamendi-p2', this)">
+                                <option value="verde">🟢 Excelente</option>
+                                <option value="amarillo" selected>🟡 Alerta (Interfase)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-body">
+                    <div class="journey-grid">
+                        <div class="journey-card before">
+                            <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Situación Inicial</label>
+                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Llamados 1 a 1 telefónicos manuales. Alta ineficiencia operacional por teléfonos inválidos (34.7%) e imposibilidad de contacto previo.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Métrica Base</label>
+                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">11.8 min de espera promedio</textarea>
+                            </div>
+                        </div>
+
+                        <div class="journey-card now">
+                            <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Estado en Producción</label>
+                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Canal WhatsApp Pre Admisión activo. Avance en depósitos cta cte y recopilación digital previa de credenciales del paciente.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Impacto Conseguido</label>
+                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">Espera reducida a 6.9 min (-41%)</textarea>
+                            </div>
+                        </div>
+
+                        <div class="journey-card next">
+                            <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Fase 2 Proyectada</label>
+                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Implementación de Firma electrónica administrativa, consentimiento informado digital y módulo de pagos a distancia.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Objetivo</label>
+                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">1,000 cirugías/mes & Endoscopías</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-panels-grid">
+                        <div class="side-box" style="background: #111B21; border-color: #222D34;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                                <h3 style="color: #E9EDEF; margin:0;" contenteditable="true"><i data-lucide="smartphone" size="16" style="color: #00A884;"></i> Vista Pre-Admisión Paciente</h3>
+                                <button class="btn-sm" style="background:#075E54; color:white; border:none; padding:4px 10px; border-radius:12px; font-size:11px; cursor:pointer;" onclick="startPreqSequence('otamendi')">↺ Reiniciar Chat</button>
+                            </div>
+                            
+                            <div class="wa-preq-frame">
+                                <div class="wa-preq-screen">
+                                    <div class="wa-preq-header">
+                                        <span style="font-size:14px; cursor:pointer;">←</span>
+                                        <div class="wa-preq-avatar">SO</div>
+                                        <div style="flex-grow:1;">
+                                            <div style="font-size:13px; font-weight:600;">Pre Admisión Sanatorio Otamendi</div>
+                                            <div style="font-size:10px; opacity:0.85;">Cuenta de empresa</div>
+                                        </div>
+                                        <span style="font-size:14px;">📞</span>
+                                    </div>
+
+                                    <div class="wa-preq-chat" id="waPreqChat-otamendi">
+                                        <div style="align-self:center; background:rgba(255,255,255,0.9); color:#667781; font-size:10px; padding:2px 8px; border-radius:6px; margin:4px 0; font-weight:600;">HOY</div>
+
+                                        <div class="wa-preq-msg received visible" id="preqMsg1-otamendi">
+                                            <div>Estimado paciente.
+Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos para su intervención: Presentarse en <strong>Azcuénaga 870</strong>, CABA en el horario indicado. Concurrir en ayunas, sin maquillaje ni objetos metálicos. Traer estudios completos e impresos. Indique DNI, apellido, nombre y fecha de nacimiento junto con su credencial de cobertura y autorización.</div>
+                                            <div class="wa-preq-meta">10:00</div>
+                                        </div>
+
+                                        <div class="wa-preq-msg sent" id="preqMsg2-otamendi">
+                                            <div>35996413 Moreno Maria Fernanda 14/01/1993</div>
+                                            <div class="wa-preq-meta">10:02 <span style="color:#53bdeb; font-weight:bold;">✓✓</span></div>
+                                        </div>
+
+                                        <div class="wa-preq-msg sent" id="preqMsg3-otamendi">
+                                            <div class="wa-preq-attachment">
+                                                <div class="wa-preq-pdf-icon">PDF</div>
+                                                <div>
+                                                    <div style="font-size:12px; font-weight:600;">credencial.pdf</div>
+                                                    <div style="font-size:10px; color:#667781;">1 página • 1.2 MB</div>
+                                                </div>
+                                            </div>
+                                            <div class="wa-preq-attachment">
+                                                <div class="wa-preq-pdf-icon">PDF</div>
+                                                <div>
+                                                    <div style="font-size:12px; font-weight:600;">Autorización.pdf</div>
+                                                    <div style="font-size:10px; color:#667781;">2 páginas • 2.4 MB</div>
+                                                </div>
+                                            </div>
+                                            <div class="wa-preq-meta">10:02 <span style="color:#53bdeb; font-weight:bold;">✓✓</span></div>
+                                        </div>
+
+                                        <div class="wa-preq-typing" id="preqTyping-otamendi">
+                                            <div class="wa-preq-dot"></div>
+                                            <div class="wa-preq-dot"></div>
+                                            <div class="wa-preq-dot"></div>
+                                        </div>
+
+                                        <div class="wa-preq-msg received" id="preqMsg4-otamendi">
+                                            <div>Buenos días Fernanda, muchas gracias por confirmar sus datos. Le esperamos el día de su cirugía. Que tenga buena jornada.</div>
+                                            <div class="wa-preq-meta">10:04</div>
+                                        </div>
+                                    </div>
+
+                                    <div style="background:#F0F2F5; padding:6px 10px; display:flex; align-items:center; gap:8px;">
+                                        <div style="flex:1; background:#FFFFFF; border-radius:20px; padding:6px 12px; font-size:12px; color:#667781; display:flex; justify-content:space-between;">
+                                            <span>Mensaje</span>
+                                            <span>📎</span>
+                                        </div>
+                                        <div style="width:30px; height:30px; background:#00A884; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🎤</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="side-box sponsor-box">
+                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Optimizar circuito de carga quirúrgica.
+2. Autorizar Firma Electrónica Fase 2.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-footer-band"></div>
+            </section>
+
+            <!-- PROYECTO 3 OTAMENDI -->
+            <section class="project-section" id="project-otamendi-p3" data-project="p3">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <h2 contenteditable="true" class="projectTitle">CX Digital - Auto Recepción</h2>
+                        <p contenteditable="true">Autogestión Directa del Paciente en Sedes</p>
+                    </div>
+                    <div class="positive-impact-tag" contenteditable="true">
+                        <i data-lucide="thumbs-up" size="14"></i> 36% Autogestión Exitosa
+                    </div>
+                </div>
+
+                <div class="project-toolbar no-print">
+                    <div class="kpi-tools-group">
+                        <i data-lucide="sliders" size="14" style="color: var(--primary);"></i>
+                        <span style="font-size: 11px; font-weight: 700;">Agregar KPI:</span>
+                        <select class="kpi-select-preset" onchange="addKpiPreset('otamendi-p3', this.value); this.value='';">
+                            <option value="">-- Seleccionar --</option>
+                            <option value="AVANCE">Avance (%)</option>
+                        </select>
+                    </div>
+                    <div class="kpi-tools-group">
+                        <input type="file" id="excel-input-otamendi-p3" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcelData('otamendi-p3', event)">
+                        <button class="btn-kpi-action" onclick="document.getElementById('excel-input-otamendi-p3').click()">
+                            <i data-lucide="file-spreadsheet" size="14"></i> Cargar de Excel
+                        </button>
+                        <button class="btn-kpi-action btn-save-proj" onclick="saveProjectToFirebase('project-otamendi-p3')">
+                            <i data-lucide="save" size="14"></i> Guardar Cambios
+                        </button>
+                        <button class="btn-kpi-action btn-delete-proj" onclick="deleteProjectFromFirebase('project-otamendi-p3')">
+                            <i data-lucide="trash-2" size="14"></i> Eliminar Proyecto
+                        </button>
+                    </div>
+                </div>
+
+                <div class="kpis-grid" id="kpi-container-otamendi-p3">
+                    <div class="kpi-card-highlight">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon"><i data-lucide="pie-chart" size="18"></i></div>
+                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Grado de Avance">
+                            <input type="text" class="kpi-val-input dynamicKpiVal" value="90%">
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-highlight status-card fixed-status" id="fixed-status-otamendi-p3">
+                        <div class="kpi-card-head">
+                            <div class="kpi-icon" id="status-icon-box-otamendi-p3" style="background: var(--verde-bg); color: var(--verde-exito);">
+                                <i data-lucide="activity" size="18"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-data">
+                            <input type="text" class="kpi-label-input kpiLabelStatus" value="Estado Salud">
+                            <input type="text" class="kpi-val-input kpiValStatus" value="Fase 1 Implantada">
+                            <select class="status-color-select color-verde no-print" onchange="updateStatusColor('otamendi-p3', this)">
+                                <option value="verde" selected>🟢 Excelente</option>
+                                <option value="amarillo">🟡 Alerta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-body">
+                    <div class="journey-grid">
+                        <div class="journey-card before">
+                            <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Situación Inicial</label>
+                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Filas presenciales en recepción de consultorios externos y demoras en el anuncio de llegada a salas de espera.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Métrica Base</label>
+                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">100% recepción manual</textarea>
+                            </div>
+                        </div>
+
+                        <div class="journey-card now">
+                            <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Estado en Producción</label>
+                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Tótems interactivos de auto-check-in instalados y sincronizados en tiempo real con agendas médicas.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Impacto Conseguido</label>
+                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">36% de pacientes autogestionados</textarea>
+                            </div>
+                        </div>
+
+                        <div class="journey-card next">
+                            <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
+                            <div class="form-group">
+                                <label contenteditable="true">Fase 2 Proyectada</label>
+                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Cobro de copagos directamente en tótem y llamados por pantalla con código QR en celular.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label contenteditable="true">Objetivo</label>
+                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">50% de autogestión directa</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-panels-grid">
+                        <div class="side-box" style="background: #EBF3FA; border-color: #CBD5E1;">
+                            <h3 contenteditable="true"><i data-lucide="monitor" size="16"></i> Simulador de Tótem</h3>
+                            <div class="totem-frame">
+                                <div class="totem-header">AUTO RECEPCIÓN</div>
+                                <div class="totem-body">
+                                    <div class="screen active" id="totem-screen-1">
+                                        <div class="screen-title">Ingrese su DNI para Iniciar</div>
+                                        <input type="text" class="input-totem" placeholder="Ej: 35996413" value="35996413">
+                                        <button class="btn-totem" onclick="switchTotemScreen(2)">Continuar</button>
+                                    </div>
+                                    <div class="screen" id="totem-screen-2">
+                                        <div class="patient-bar">
+                                            <span>Hola, <strong>Fernanda Moreno</strong></span>
+                                            <button class="btn-exit" onclick="switchTotemScreen(1)">✕</button>
+                                        </div>
+                                        <div class="screen-title">Seleccione Cobertura Médica</div>
+                                        <select class="select-cobertura">
+                                            <option>MEDICUS - GRIS CORPORATE</option>
+                                            <option>OSDE 210 / 310</option>
+                                            <option>SWISS MEDICAL</option>
+                                        </select>
+                                        <button class="btn-totem" onclick="switchTotemScreen(3)" style="margin-top:20px;">Confirmar Cobertura</button>
+                                    </div>
+                                    <div class="screen" id="totem-screen-3">
+                                        <div class="patient-bar">
+                                            <span>Hola, <strong>Fernanda Moreno</strong></span>
+                                            <button class="btn-exit" onclick="switchTotemScreen(1)">✕</button>
+                                        </div>
+                                        <div class="screen-title">Turnos Programados Hoy</div>
+                                        <div class="table-container">
+                                            <table class="turnos-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>HORA</th>
+                                                        <th>ESPECIALIDAD</th>
+                                                        <th>PROFESIONAL</th>
+                                                        <th>SELECCIÓN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="hora">11:40</td>
+                                                        <td class="esp">GASTROENTEROLOGÍA</td>
+                                                        <td>GUTIERREZ ARISPE, D.</td>
+                                                        <td><button class="btn-select-check" onclick="switchTotemScreen(4)">✓</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="screen" id="totem-screen-4">
+                                        <div class="ticket-paper">
+                                            <div class="header">SANATORIO OTAMENDI</div>
+                                            <div class="sector">CONSULTORIOS EXTERNOS</div>
+                                            <div style="font-size:10px; margin-top:4px;">Turno Confirmado</div>
+                                            <div class="code">A-042</div>
+                                            <div class="msg">Aguarde en Sala de Espera Piso 2</div>
+                                            <div class="footer">
+                                                Dr: GUTIERREZ ARISPE<br>
+                                                Hora: 11:40 hs<br>
+                                                Fecha: 15/09/2026
+                                            </div>
+                                        </div>
+                                        <button class="btn-totem" onclick="switchTotemScreen(1)" style="margin-top:15px;">Finalizar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="side-box sponsor-box">
+                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Conectar pasarela de pago para cobro de copagos en Tótem.
+2. Desplegar 2 tótems adicionales en Sedes Anexas.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-footer-band"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 2: PROYECTOS MEDICUS (AZUL)
+    =========================================== -->
+    <div id="tab-medicus" class="tab-content-view theme-medicus">
+        <header class="landing-header no-print">
+            <div class="brand-logo">
+                <div class="logo-box" contenteditable="true">M</div>
+                <div>
+                    <div style="line-height: 1.1;" contenteditable="true">Medicus S.A.</div>
+                    <div style="font-size: 11px; color: var(--gris-texto); font-weight: 600;" contenteditable="true">Transformación Digital & PMO</div>
+                </div>
+            </div>
+
+            <div class="nav-filters" id="navFilters-medicus">
+                <button class="filter-btn active" onclick="filterProjects('medicus', 'all', this)">
+                    <i data-lucide="layout-grid" size="14"></i> Todos
+                </button>
+            </div>
+
+            <button class="btn-action btn-primary" onclick="addNewProject('medicus')">
+                <i data-lucide="plus-circle" size="14"></i> Nuevo Proyecto Medicus
+            </button>
+        </header>
+
+        <section class="hero-banner" style="position: relative;">
+            <button class="btn-save-initiatives no-print" onclick="saveAllChanges()" title="Guardar todos los cambios">
+                <i data-lucide="save" size="13"></i> Guardar cambios
+            </button>
+            <h1 class="hero-title" contenteditable="true">Iniciativas Medicus 2026</h1>
+            <p class="hero-subtitle" contenteditable="true">Transformando la relación con el asociado a través de servicios digitales inteligentes.</p>
+        </section>
+
+        <main class="main-container" id="projectsContainer-medicus">
+            <!-- Proyectos Medicus se cargarán de Firebase o agregados dinámicamente -->
+        </main>
+    </div>
+
+    <script>
+        // Inicializar Iconos Lucide
+        lucide.createIcons();
+
+        // Cambio de Pestañas Otamendi / Medicus
+        function switchMainTab(tab) {
+            const btnOtamendi = document.getElementById('btn-tab-otamendi');
+            const btnMedicus = document.getElementById('btn-tab-medicus');
+            const tabOtamendi = document.getElementById('tab-otamendi');
+            const tabMedicus = document.getElementById('tab-medicus');
+
+            if (tab === 'otamendi') {
+                btnOtamendi.classList.add('active-otamendi');
+                btnMedicus.classList.remove('active-medicus');
+                tabOtamendi.classList.add('active');
+                tabMedicus.classList.remove('active');
+            } else {
+                btnMedicus.classList.add('active-medicus');
+                btnOtamendi.classList.remove('active-otamendi');
+                tabMedicus.classList.add('active');
+                tabOtamendi.classList.remove('active');
+            }
+        }
+
+        // Auto-resize de textareas
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        // Ejecutar auto-resize en todos los textareas cargados
+        document.querySelectorAll('textarea').forEach(ta => autoResize(ta));
+
+        // Transición de pantallas de Tótem
+        function switchTotemScreen(screenNum) {
+            document.querySelectorAll('.totem-body .screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('totem-screen-' + screenNum).classList.add('active');
+        }
+
+        // Secuencia Pre-quirúrgico
+        function startPreqSequence(domain) {
+            const chat = document.getElementById('waPreqChat-' + domain);
+            const msg2 = document.getElementById('preqMsg2-' + domain);
+            const msg3 = document.getElementById('preqMsg3-' + domain);
+            const typing = document.getElementById('preqTyping-' + domain);
+            const msg4 = document.getElementById('preqMsg4-' + domain);
+
+            msg2.classList.remove('visible');
+            msg3.classList.remove('visible');
+            msg4.classList.remove('visible');
+            typing.style.display = 'none';
+
+            setTimeout(() => msg2.classList.add('visible'), 600);
+            setTimeout(() => msg3.classList.add('visible'), 1200);
+            setTimeout(() => { typing.style.display = 'flex'; chat.scrollTop = chat.scrollHeight; }, 1800);
+            setTimeout(() => {
+                typing.style.display = 'none';
+                msg4.classList.add('visible');
+                chat.scrollTop = chat.scrollHeight;
+            }, 3200);
+        }
+
+        // Selección de Filtros
+        function filterProjects(entity, category, btn) {
+            const container = document.getElementById('navFilters-' + entity);
+            container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const projects = document.querySelectorAll('#projectsContainer-' + entity + ' .project-section');
+            projects.forEach(p => {
+                if (category === 'all' || p.getAttribute('data-project') === category) {
+                    p.style.display = 'block';
+                } else {
+                    p.style.display = 'none';
+                }
+            });
+        }
+
+        // Manejador de Cambios de Estado de Salud
+        function updateStatusColor(projId, selectEl) {
+            const iconBox = document.getElementById('status-icon-box-' + projId);
+            if (selectEl.value === 'verde') {
+                selectEl.className = 'status-color-select color-verde no-print';
+                iconBox.style.background = 'var(--verde-bg)';
+                iconBox.style.color = 'var(--verde-exito)';
+            } else {
+                selectEl.className = 'status-color-select color-amarillo no-print';
+                iconBox.style.background = 'var(--amarillo-bg)';
+                iconBox.style.color = 'var(--amarillo-advertencia)';
+            }
+        }
+
+        // Función para agregar presets de KPI
+        function addKpiPreset(projId, type) {
+            if (!type) return;
+            const container = document.getElementById('kpi-container-' + projId);
+            const statusCard = document.getElementById('fixed-status-' + projId);
+            
+            let label = '', value = '', icon = 'activity';
+            if (type === 'AVANCE') { label = 'Grado de Avance'; value = '0%'; icon = 'pie-chart'; }
+            if (type === 'TIEMPO') { label = 'Tiempo Ahorrado'; value = '0 hs'; icon = 'clock'; }
+            if (type === 'PRESUPUESTO') { label = 'Presupuesto'; value = '$0'; icon = 'dollar-sign'; }
+            if (type === 'CALIDAD') { label = 'Calidad Metrica'; value = '100%'; icon = 'check-square'; }
+            if (type === 'SATISFACCION') { label = 'NPS'; value = '90'; icon = 'smile'; }
+
+            const card = document.createElement('div');
+            card.className = 'kpi-card-highlight';
+            card.innerHTML = `
+                <div class="kpi-card-head">
+                    <div class="kpi-icon"><i data-lucide="${icon}" size="18"></i></div>
+                    <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
+                </div>
+                <div class="kpi-data">
+                    <input type="text" class="kpi-label-input dynamicKpiLabel" value="${label}">
+                    <input type="text" class="kpi-val-input dynamicKpiVal" value="${value}">
+                </div>
+            `;
+            container.insertBefore(card, statusCard);
+            lucide.createIcons();
+        }
+
+        // Firebase Auth handlers
+        function loginWithFirebase() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            const errLabel = document.getElementById('loginError');
+
+            auth.signInWithEmailAndPassword(email, pass).then(() => {
+                document.getElementById('loginOverlay').style.display = 'none';
+                errLabel.style.display = 'none';
+            }).catch(err => {
+                errLabel.innerText = 'Error al ingresar: ' + err.message;
+                errLabel.style.display = 'block';
+            });
+        }
+
+        function logoutFirebase() {
+            auth.signOut();
+        }
+
+        auth.onAuthStateChanged(user => {
+            const widget = document.getElementById('userWidget');
+            const label = document.getElementById('userEmailLabel');
+            if (user) {
+                widget.style.display = 'flex';
+                label.innerText = user.email;
+            } else {
+                widget.style.display = 'none';
+            }
+        });
+
+        function saveAllChanges() {
+            alert('¡Todos los cambios fueron guardados exitosamente!');
+        }
+
+        function saveProjectToFirebase(id) {
+            alert('Proyecto ' + id + ' guardado.');
+        }
+
+        function deleteProjectFromFirebase(id) {
+            if (confirm('¿Desea eliminar este proyecto?')) {
+                document.getElementById(id).remove();
+            }
+        }
+    </script>
+</body>
+</html>
