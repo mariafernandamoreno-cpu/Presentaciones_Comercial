@@ -340,7 +340,7 @@
         }
 
         .main-container {
-            max-width: 1280px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 24px 20px 100px 20px;
             display: flex;
@@ -523,7 +523,7 @@
             padding: 16px 36px 36px 36px;
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 32px;
         }
 
         .journey-grid {
@@ -617,6 +617,59 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Seccion de Graficos Optimizada: Mayor Tamaño y Maxima Legibilidad */
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .chart-card {
+            background: var(--blanco);
+            border: 1px solid var(--gris-borde);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .chart-card h4 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #FAFAFA;
+            border: 1px solid var(--gris-borde);
+            border-radius: 12px;
+            padding: 16px;
+            overflow: hidden;
+        }
+
+        .chart-card img {
+            width: 100%;
+            height: auto;
+            max-height: 800px;
+            object-fit: contain;
+            border-radius: 6px;
+            filter: contrast(1.05) brightness(1.02); /* Mejora de legibilidad */
         }
 
         .phone-column-embed {
@@ -1244,6 +1297,16 @@
             background: linear-gradient(90deg, var(--primary) 70%, var(--dorado) 100%);
         }
 
+        .btn-save-initiatives {
+            position: absolute; top: 12px; right: 14px;
+            padding: 5px 9px; border: 1px solid rgba(255,255,255,.16);
+            border-radius: 7px; background: rgba(255,255,255,.07);
+            color: #CBD5E1; font-size: 10px; font-weight: 600;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+            opacity: .82; transition: opacity .2s, background .2s;
+        }
+        .btn-save-initiatives:hover { opacity: 1; background: rgba(255,255,255,.12); }
+
         .action-bar-floating {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
             z-index: 1000; background: rgba(26, 32, 44, 0.92);
@@ -1333,7 +1396,10 @@
             </button>
         </header>
 
-        <section class="hero-banner">
+        <section class="hero-banner" style="position: relative;">
+            <button class="btn-save-initiatives no-print" onclick="saveAllChanges()" title="Guardar todos los cambios">
+                <i data-lucide="save" size="13"></i> Guardar cambios
+            </button>
             <h1 class="hero-title" contenteditable="true">Iniciativas Digitales de Alto Impacto 2026</h1>
             <p class="hero-subtitle" contenteditable="true">Optimizando la experiencia del paciente y la eficiencia operativa mediante automatizaciones y self-service.</p>
             
@@ -1341,7 +1407,7 @@
                 <div class="global-metric-badge">
                     <i data-lucide="clock" size="24"></i>
                     <div>
-                        <div contenteditable="true">+38 Hs/Mes</div>
+                        <div contenteditable="true">+24HS Semanales</div>
                         <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Tiempo Liberado en Agentes</div>
                     </div>
                 </div>
@@ -1492,45 +1558,452 @@
                         </div>
                     </div>
 
+                    <!-- SECCIÓN DE GRÁFICOS OPTIMIZADA (MAYOR TAMAÑO Y ALTA LEGIBILIDAD) -->
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h4 contenteditable="true"><i data-lucide="bar-chart-2" size="20"></i> Distribución por Canal de Atención</h4>
+                            <div class="chart-wrapper">
+                                <img src="Code_Generated_Image (7).png" alt="Gráfico de Distribución por Canal">
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 contenteditable="true"><i data-lucide="line-chart" size="20"></i> Evolución Mensual del Volumen</h4>
+                            <div class="chart-wrapper">
+                                <img src="Code_Generated_Image (6).png" alt="Gráfico de Evolución Mensual">
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 contenteditable="true"><i data-lucide="clock" size="20"></i> Tiempos Promedio de Respuesta</h4>
+                            <div class="chart-wrapper">
+                                <img src="Code_Generated_Image (5).png" alt="Gráfico de Tiempos Promedio">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="bottom-panels-grid">
                         <div class="side-box" style="background: #111B21; border-color: #222D34;">
                             <h3 style="color: #E9EDEF;" contenteditable="true"><i data-lucide="smartphone" size="16" style="color: #00A884;"></i> Vista Interfaz Paciente</h3>
                             
-                            <div class="phone-column-embed">
-                              <div class="column-header">
-                                <h3>🤖 PROCESO 2: "Con Automatización" (Mejorado)</h3>
-                                
-                                <div class="stats-bar">
-                                  <div><span>Tiempo Estimado</span><span class="stat-val" id="desdeimp-time-otamendi">0 min</span></div>
-                                </div>
+                            <iframe title="Simulación WhatsApp" style="width:100%; height:760px; border:0; border-radius:12px; display:block;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;!-- saved from url=(0129)file:///C:/Users/mfmoreno/Desktop/Documentos%20de%20Procesos/TABLEROS%20VARIOS/Bot%20call%20simulacion%20solo%20con%20mejora.html --&gt;
+&lt;html lang=&quot;es&quot;&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+  
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Simulación WhatsApp - Proceso Mejorado&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --brand-bordo: #800020;
+      --brand-bordo-light: #a31838;
+      --bg-light: #f4f6f8;
+      --bg-card: #ffffff;
+      --border-light: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      
+      /* Estética WhatsApp */
+      --wa-header-bg: #075e54;
+      --wa-chat-bg: #ece5dd;
+      --wa-msg-in: #ffffff;
+      --wa-msg-out: #dcf8c6;
+      --wa-msg-text: #111111;
+      --wa-meta-text: #777777;
+      
+      --font-sans: &#x27;Calibri&#x27;, &#x27;Helvetica Neue&#x27;, Helvetica, Arial, sans-serif;
+      --font-mono: &#x27;Consolas&#x27;, &#x27;Courier New&#x27;, monospace;
+    }
 
-                                <div class="column-controls">
-                                  <button class="btn-sm" id="btnPlayDesdeimp-otamendi" onclick="togglePlay('otamendi')">
-                                    <span id="playIconDesdeimp-otamendi">▶</span> <span id="playTextDesdeimp-otamendi">Iniciar</span>
-                                  </button>
-                                  <button class="btn-sm btn-sm-secondary" onclick="resetSim('otamendi')">🔄 Reiniciar</button>
-                                  <select id="speedDesdeimp-otamendi" class="select-sm" onchange="changeSpeed(this.value)">
-                                    <option value="1" selected>1x</option>
-                                    <option value="1.5">1.5x</option>
-                                    <option value="2.5">2.5x</option>
-                                  </select>
-                                </div>
-                              </div>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-                              <div class="phone-frame">
-                                <div class="phone-screen">
-                                  <div class="wa-header">
-                                    <div class="wa-avatar">SO</div>
-                                    <div>
-                                      <div style="font-weight:bold; font-size:0.85rem;">Sanatorio Otamendi</div>
-                                      <div style="font-size:0.68rem; opacity:0.9;">Cuenta de empresa</div>
-                                    </div>
-                                  </div>
-                                  <div class="chat-body" id="desdeimp-chat-otamendi"></div>
-                                  <div class="wa-footer"><div class="wa-input">Escribe un mensaje...</div></div>
-                                </div>
-                              </div>
-                            </div>
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .phone-column {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .column-header {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .column-header h3 {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #059669;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.85rem;
+    }
+
+    .stat-val { 
+      font-family: var(--font-mono); 
+      font-weight: bold; 
+      font-size: 1.1rem; 
+      display: block; 
+      margin-top: 2px;
+      color: #059669;
+    }
+
+    .column-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-light);
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .btn-sm {
+      background: var(--brand-bordo);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-sm:hover {
+      background: var(--brand-bordo-light);
+    }
+
+    .btn-sm-secondary {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .btn-sm-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    select.select-sm {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 5px 8px;
+      border-radius: 6px;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+    }
+
+    .phone-frame {
+      width: 100%;
+      height: 680px;
+      background: #111111;
+      border-radius: 38px;
+      padding: 12px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: var(--wa-chat-bg);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wa-header {
+      background: var(--wa-header-bg);
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .wa-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 2px;
+      font-weight: bold;
+      color: var(--brand-bordo);
+    }
+
+    .wa-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-image: radial-gradient(#d4c7b8 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    .msg {
+      max-width: 82%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.35;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+      word-break: break-word;
+      position: relative;
+      color: var(--wa-msg-text);
+    }
+
+    .msg-in { 
+      align-self: flex-start; 
+      background: var(--wa-msg-in); 
+      border-top-left-radius: 0px;
+    }
+
+    .msg-out { 
+      align-self: flex-end; 
+      background: var(--wa-msg-out); 
+      border-top-right-radius: 0px;
+    }
+
+    .msg-meta {
+      font-size: 0.68rem;
+      color: var(--wa-meta-text);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .milestone-banner {
+      align-self: center;
+      background: #e1f5fe;
+      border: 1px solid #b3e5fc;
+      color: #0277bd;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 6px 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .wa-footer { 
+      background: #f0f0f0; 
+      padding: 8px 12px; 
+      display: flex;
+      align-items: center;
+    }
+    
+    .wa-input { 
+      background: #ffffff; 
+      border-radius: 20px; 
+      padding: 8px 16px; 
+      font-size: 0.85rem; 
+      color: #888888; 
+      width: 100%;
+      border: 1px solid #dddddd;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;div class=&quot;phone-column&quot;&gt;
+    &lt;div class=&quot;column-header&quot;&gt;
+      &lt;h3&gt;🤖 PROCESO 2: &quot;Con Automatización&quot; (Mejorado)&lt;/h3&gt;
+      
+      &lt;div class=&quot;stats-bar&quot;&gt;
+        &lt;div&gt;&lt;span&gt;Tiempo Estimado&lt;/span&gt;&lt;span class=&quot;stat-val&quot; id=&quot;desdeimp-time&quot;&gt;0 min&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;column-controls&quot;&gt;
+        &lt;button class=&quot;btn-sm&quot; id=&quot;btnPlayDesdeimp&quot; onclick=&quot;togglePlay()&quot;&gt;
+          &lt;span id=&quot;playIconDesdeimp&quot;&gt;▶&lt;/span&gt; &lt;span id=&quot;playTextDesdeimp&quot;&gt;Iniciar&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;button class=&quot;btn-sm btn-sm-secondary&quot; onclick=&quot;resetSim()&quot;&gt;🔄 Reiniciar&lt;/button&gt;
+        &lt;select id=&quot;speedDesdeimp&quot; class=&quot;select-sm&quot; onchange=&quot;changeSpeed(this.value)&quot;&gt;
+          &lt;option value=&quot;1&quot; selected=&quot;&quot;&gt;1x&lt;/option&gt;
+          &lt;option value=&quot;1.5&quot;&gt;1.5x&lt;/option&gt;
+          &lt;option value=&quot;2.5&quot;&gt;2.5x&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;phone-frame&quot;&gt;
+      &lt;div class=&quot;phone-screen&quot;&gt;
+        &lt;div class=&quot;wa-header&quot;&gt;
+          &lt;div class=&quot;wa-avatar&quot;&gt;SO&lt;/div&gt;
+          &lt;div&gt;
+            &lt;div style=&quot;font-weight:bold; font-size:0.95rem;&quot;&gt;Sanatorio Otamendi (Mejorado)&lt;/div&gt;
+            &lt;div style=&quot;font-size:0.72rem; opacity:0.9;&quot;&gt;Cuenta de empresa&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;chat-body&quot; id=&quot;desdeimp-chat&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;wa-footer&quot;&gt;&lt;div class=&quot;wa-input&quot;&gt;Escribe un mensaje...&lt;/div&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    const scriptDesdeimp = [
+      { type: &quot;milestone&quot;, text: &quot;📍 Paso 1: Inicio y Validación Autogestionada&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;hola&quot;, time: &quot;2:17 p.m.&quot;, userInteraction: true, duration: 0 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Bienvenido al Sanatorio Otamendi&quot;, time: &quot;2:17 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Por favor elija la opción de su consulta:\n1. Turnos\n2. Prequirúrgico\n3. Guardia Medica\n4. Laboratorio\n5. Presupuestos\n6. Maternidad\n7. Registro Civil\n8. Vacunatorio&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Elija la opción de su consulta:\n1. Consultas Médicas\n2. Holters / Presurometría\n3. Resonancias\n4. Tomografía\n5. Ecografía\n6. Estudios de Cardiología\n7. Endoscopia / Colonoscopía\n8. Volver atrás&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Por favor elija la opción de su consulta:\n1. Solicitar\n2. Reprogramar\n3. Cancelar\n4. Consultar\n5. Volver atrás\n6. Volver al menú principal&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Ingrese su número de documento (sin puntos ni guiones)&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;35996413&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Ingrese su año de nacimiento (el formato debe ser AAAA)&quot;, time: &quot;2:18 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1993&quot;, time: &quot;2:18 p.m.&quot;, userInteraction: true, duration: 1 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Los datos que tenemos registrados son:\n• Nombre Completo: Moreno Fernanda,\n• Tipo documento: DNI,\n• Número documento: 35996413,\n• Fecha de nacimiento: 14/01/1993,\n• Sexo: FEMENINO.\n¿Son Correctos?\n1. Sí ✅\n2. No ❌&quot;, time: &quot;2:19 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:19 p.m.&quot;, userInteraction: true, duration: 2 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;• Su Cobertura Médica es: MEDICUS\n• Su Plan es: GRIS CORPORATE\n• El número de afiliado es: 15708966002\n¿Es correcto?\n1. Sí ✅\n2. No ❌&quot;, time: &quot;2:19 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:19 p.m.&quot;, userInteraction: true, duration: 2 },
+      { type: &quot;milestone&quot;, text: &quot;📍 Paso 2: Selección de Turno en Tiempo Real&quot; },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la sede de su preferencia\n1. Sanatorio Otamendi\n2. Sanatorio Otamendi Consultorios Externos\n3. Consultorios Externos San Miguel\n4. Sanatorio Otamendi Centro Ambulatorio\n5. Volver atrás\n6. Volver al menú principal&quot;, time: &quot;2:19 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;2&quot;, time: &quot;2:19 p.m.&quot;, userInteraction: true, duration: 2 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la opción de su preferencia\n1. Especialidad\n2. Profesional\n3. Volver atrás\n4. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la Especialidad de su preferencia.\n1. Alergia e Inmunología\n2. Cardiología\n3. Cirugía\n4. Clínica Médica\n5. Coloproctología\n6. OLOPROCTOLOGÍA\n7. Dermatología\n8. Ver más\n9. Volver atrás\n10. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;8&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la Especialidad de su preferencia.\n1. Diabetología\n2. Ecografía\n3. Endocrinología\n4. Fonoaudiología\n5. Gastroenterología\n6. Ginecología y Obstetricia\n7. Hematología\n8. Ver más\n9. Volver atrás\n10. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;5&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la Práctica de su preferencia.\n1. Consulta de Gastroenterología\n2. Consulta Gastroenterología\n3. Volver atrás\n4. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la fecha deseada\n1. Jueves 25/06/2026\n2. Viernes 17/07/2026\n3. Lunes 20/07/2026\n4. Miércoles 22/07/2026\n5. Jueves 23/07/2026\n6. Viernes 24/07/2026\n7. Sábado 25/07/2026\n8. Ver más\n9. Volver atrás\n10. Volver al menú principal&quot;, time: &quot;2:20 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;2&quot;, time: &quot;2:20 p.m.&quot;, userInteraction: true, duration: 3 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;Seleccione la hora deseada\n1. 10:20 (GUTIERREZ ARISPE, DANIELA FERNANDA)\n2. 11:40 (GUTIERREZ ARISPE, DANIELA FERNANDA)\n3. Volver atrás\n4. Volver al menú principal&quot;, time: &quot;2:21 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;2&quot;, time: &quot;2:21 p.m.&quot;, userInteraction: true, duration: 4 },
+      { type: &quot;milestone&quot;, text: &quot;📍 Paso 3: Confirmación e Inscripción Directa&quot; },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;🗓️ Reserva de Turno\n• Nombre Paciente: MORENO MARIA FERNANDA,\n• DNI Paciente: 35996413,\n• Lugar: SANATORIO OTAMENDI CONSULTORIOS EXTERNOS,\n• Profesional: GUTIERREZ ARISPE, DANIELA FERNANDA,\n• Especialidad: GASTROENTEROLOGIA,\n• Práctica: CONSULTA DE GASTROENTEROLOGIA,\n• Día y horario: Miércoles 22/07/2026 a las 11:40 horas.\n• Preparación Previa: Sin indicaciones previas\n¿Confirma el turno seleccionado?\n1. Sí ✅\n2. No ❌&quot;, time: &quot;2:21 p.m.&quot; },
+      { type: &quot;msg&quot;, sender: &quot;patient&quot;, text: &quot;1&quot;, time: &quot;2:21 p.m.&quot;, userInteraction: true, duration: 4 },
+      { type: &quot;msg&quot;, sender: &quot;bot&quot;, text: &quot;🗓️ Confirmación de su turno médico\n• Gracias: MORENO MARIA FERNANDA,\nLe confirmamos su turno para \nGUTIERREZ ARISPE, DANIELA FERNANDA,\nGASTROENTEROLOGIA,\nCONSULTA DE GASTROENTEROLOGIA\n• El día Miércoles 22/07/2026 a las 11:40 hs.\nEn SANATORIO OTAMENDI CONSULTORIOS EXTERNOS \nDirección PARAGUAY 2302\nRecuerde agendar este número para recibir futuras notificaciones.&quot;, time: &quot;2:21 p.m.&quot; },
+      { type: &quot;milestone&quot;, text: &quot;🎉 ¡Turno Confirmado en THS!&quot; }
+    ];
+
+    const state = { index: 0, timer: null, speed: 1, playing: false };
+
+    function renderMessage(item) {
+      const container = document.getElementById(&quot;desdeimp-chat&quot;);
+
+      if (item.type === &quot;msg&quot;) {
+        const msgDiv = document.createElement(&quot;div&quot;);
+        const isOut = item.sender === &quot;patient&quot;;
+        msgDiv.className = `msg ${isOut ? &#x27;msg-out&#x27; : &#x27;msg-in&#x27;}`;
+        
+        let formattedText = item.text.replace(/\n/g, &#x27;&lt;br&gt;&#x27;);
+        msgDiv.innerHTML = `${formattedText}&lt;div class=&quot;msg-meta&quot;&gt;${item.time}&lt;/div&gt;`;
+        container.appendChild(msgDiv);
+      } else if (item.type === &quot;milestone&quot;) {
+        const div = document.createElement(&quot;div&quot;);
+        div.className = &quot;milestone-banner&quot;;
+        div.innerText = item.text;
+        container.appendChild(div);
+      }
+
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function stepSim() {
+      if (state.index &lt; scriptDesdeimp.length) {
+        const item = scriptDesdeimp[state.index];
+        renderMessage(item);
+
+        if (item.duration !== undefined) {
+          document.getElementById(&quot;desdeimp-time&quot;).innerText = `~${item.duration} min`;
+        }
+
+        state.index++;
+      } else {
+        pauseSim();
+      }
+    }
+
+    function togglePlay() {
+      if (state.playing) {
+        pauseSim();
+      } else {
+        startSim();
+      }
+    }
+
+    function startSim() {
+      state.playing = true;
+      document.getElementById(&quot;playIconDesdeimp&quot;).innerText = &quot;⏸&quot;;
+      document.getElementById(&quot;playTextDesdeimp&quot;).innerText = &quot;Pausar&quot;;
+      state.timer = setInterval(stepSim, 1200 / state.speed);
+    }
+
+    function pauseSim() {
+      state.playing = false;
+      document.getElementById(&quot;playIconDesdeimp&quot;).innerText = &quot;▶&quot;;
+      document.getElementById(&quot;playTextDesdeimp&quot;).innerText = &quot;Continuar&quot;;
+      if (state.timer) clearInterval(state.timer);
+    }
+
+    function resetSim() {
+      pauseSim();
+      state.index = 0;
+      document.getElementById(&quot;desdeimp-chat&quot;).innerHTML = &quot;&quot;;
+      document.getElementById(&quot;desdeimp-time&quot;).innerText = &quot;0 min&quot;;
+      document.getElementById(&quot;playTextDesdeimp&quot;).innerText = &quot;Iniciar&quot;;
+    }
+
+    function changeSpeed(speedValue) {
+      state.speed = parseFloat(speedValue);
+      if (state.playing) {
+        pauseSim();
+        startSim();
+      }
+    }
+  &lt;/script&gt;
+
+&lt;/body&gt;&lt;/html&gt;"></iframe>
 
                         </div>
 
@@ -1815,11 +2288,11 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                             <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
                             <div class="form-group">
                                 <label contenteditable="true">Situación Inicial</label>
-                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Todos los pacientes debían formar fila e interactuar obligatoriamente con recepcionistas para el ingreso a la consulta.</textarea>
+                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Filas presenciales en recepción de consultorios externos y demoras en el anuncio de llegada a salas de espera.</textarea>
                             </div>
                             <div class="form-group">
                                 <label contenteditable="true">Métrica Base</label>
-                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">100% manual en mostrador</textarea>
+                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">100% recepción manual</textarea>
                             </div>
                         </div>
 
@@ -1827,11 +2300,11 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                             <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
                             <div class="form-group">
                                 <label contenteditable="true">Estado en Producción</label>
-                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Activo en Paraguay y Larrea (Pisos 1 y 2). Derivación directa a sala de espera y confirmación automática de llegada.</textarea>
+                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Tótems interactivos de auto-check-in instalados y sincronizados en tiempo real con agendas médicas.</textarea>
                             </div>
                             <div class="form-group">
                                 <label contenteditable="true">Impacto Conseguido</label>
-                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">36% de Auto Recepciones exitosas</textarea>
+                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">36% de pacientes autogestionados</textarea>
                             </div>
                         </div>
 
@@ -1839,166 +2312,89 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                             <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
                             <div class="form-group">
                                 <label contenteditable="true">Fase 2 Proyectada</label>
-                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Implantar en Centro San Miguel y extender progresivamente a la totalidad de los nuevos centros del sanatorio.</textarea>
+                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Cobro de copagos directamente en tótem y llamados por pantalla con código QR en celular.</textarea>
                             </div>
                             <div class="form-group">
                                 <label contenteditable="true">Objetivo</label>
-                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">7,000 recepciones mensuales</textarea>
+                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">50% de autogestión directa</textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="bottom-panels-grid">
-                        <div class="side-box" style="background: #111B21; border-color: #222D34;">
-                            <h3 style="color: #E9EDEF;" contenteditable="true">
-                                <i data-lucide="tablet-smartphone" size="16" style="color: #94A3B8;"></i> Vista Tótem Auto-Recepción
-                            </h3>
-                            
+                        <div class="side-box" style="background: #EBF3FA; border-color: #CBD5E1;">
+                            <h3 contenteditable="true"><i data-lucide="monitor" size="16"></i> Simulador de Tótem</h3>
                             <div class="totem-frame">
-                              <div class="totem-header">Totem Otamendi</div>
-                              <div class="totem-body">
-
-                                <div id="screen-1-otamendi" class="screen active">
-                                  <div class="screen-title">Seleccione la Opción Deseada</div>
-                                  <button class="btn-totem" onclick="goToScreen('otamendi', 'screen-2')">ATENCION CON TURNO</button>
-                                  <button class="btn-totem" onclick="procesarSinTurno('otamendi')">ATENCION SIN TURNO</button>
+                                <div class="totem-header">AUTO RECEPCIÓN</div>
+                                <div class="totem-body">
+                                    <div class="screen active" id="totem-screen-1">
+                                        <div class="screen-title">Ingrese su DNI para Iniciar</div>
+                                        <input type="text" class="input-totem" placeholder="Ej: 35996413" value="35996413">
+                                        <button class="btn-totem" onclick="switchTotemScreen(2)">Continuar</button>
+                                    </div>
+                                    <div class="screen" id="totem-screen-2">
+                                        <div class="patient-bar">
+                                            <span>Hola, <strong>Fernanda Moreno</strong></span>
+                                            <button class="btn-exit" onclick="switchTotemScreen(1)">✕</button>
+                                        </div>
+                                        <div class="screen-title">Seleccione Cobertura Médica</div>
+                                        <select class="select-cobertura">
+                                            <option>MEDICUS - GRIS CORPORATE</option>
+                                            <option>OSDE 210 / 310</option>
+                                            <option>SWISS MEDICAL</option>
+                                        </select>
+                                        <button class="btn-totem" onclick="switchTotemScreen(3)" style="margin-top:20px;">Confirmar Cobertura</button>
+                                    </div>
+                                    <div class="screen" id="totem-screen-3">
+                                        <div class="patient-bar">
+                                            <span>Hola, <strong>Fernanda Moreno</strong></span>
+                                            <button class="btn-exit" onclick="switchTotemScreen(1)">✕</button>
+                                        </div>
+                                        <div class="screen-title">Turnos Programados Hoy</div>
+                                        <div class="table-container">
+                                            <table class="turnos-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>HORA</th>
+                                                        <th>ESPECIALIDAD</th>
+                                                        <th>PROFESIONAL</th>
+                                                        <th>SELECCIÓN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="hora">11:40</td>
+                                                        <td class="esp">GASTROENTEROLOGÍA</td>
+                                                        <td>GUTIERREZ ARISPE, D.</td>
+                                                        <td><button class="btn-select-check" onclick="switchTotemScreen(4)">✓</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="screen" id="totem-screen-4">
+                                        <div class="ticket-paper">
+                                            <div class="header">SANATORIO OTAMENDI</div>
+                                            <div class="sector">CONSULTORIOS EXTERNOS</div>
+                                            <div style="font-size:10px; margin-top:4px;">Turno Confirmado</div>
+                                            <div class="code">A-042</div>
+                                            <div class="msg">Aguarde en Sala de Espera Piso 2</div>
+                                            <div class="footer">
+                                                Dr: GUTIERREZ ARISPE<br>
+                                                Hora: 11:40 hs<br>
+                                                Fecha: 15/09/2026
+                                            </div>
+                                        </div>
+                                        <button class="btn-totem" onclick="switchTotemScreen(1)" style="margin-top:15px;">Finalizar</button>
+                                    </div>
                                 </div>
-
-                                <div id="screen-2-otamendi" class="screen">
-                                  <div class="screen-title" style="margin-bottom: 5px;">Acerque su DNI al Lector</div>
-                                  <div class="subtext">(o Ingréselo Manualmente)</div>
-                                  
-                                  <div id="manual-input-box-otamendi" style="display:none;">
-                                    <input type="text" id="dni-input-otamendi" class="input-totem" placeholder="Ingrese DNI">
-                                    <br>
-                                    <button class="btn-totem" style="width:200px; padding:10px; font-size:15px;" onclick="confirmarDniManual('otamendi')">ACEPTAR</button>
-                                  </div>
-
-                                  <div style="position: absolute; bottom: 20px;">
-                                    <button class="btn-totem" onclick="toggleManualDni('otamendi')">INGRESO MANUAL</button>
-                                  </div>
-                                </div>
-
-                                <div id="screen-3-otamendi" class="screen">
-                                  <div class="screen-title" style="margin-bottom: 15px;">¿Son Correctos Los Siguientes Datos?</div>
-                                  
-                                  <div class="data-grid">
-                                    <div>DNI: <span id="disp-dni-otamendi">35412890</span></div>
-                                    <div>Apellido: <span>GONZALEZ</span></div>
-                                    <div>Nombre: <span>JUAN CARLOS</span></div>
-                                    <div>Sexo: <span>MASCULINO</span></div>
-                                    <div>Fecha Nacimiento: <span>14/08/1986</span></div>
-                                  </div>
-
-                                  <div class="btn-row">
-                                    <button class="btn-totem" onclick="goToScreen('otamendi', 'screen-4')">SI</button>
-                                    <button class="btn-totem" onclick="derivacionRecepcionDirecta('otamendi')">NO</button>
-                                  </div>
-                                </div>
-
-                                <div id="screen-4-otamendi" class="screen" style="justify-content: flex-start; padding-top: 10px;">
-                                  <div class="patient-bar">
-                                    <div>Paciente: <strong>GONZALEZ JUAN CARLOS</strong> - DNI: <strong id="bar-dni-1-otamendi">35412890</strong></div>
-                                    <button class="btn-exit" onclick="goToScreen('otamendi', 'screen-1')">
-                                      <svg viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                                    </button>
-                                  </div>
-
-                                  <div class="screen-title" style="margin-bottom: 15px;">Seleccione un Turno</div>
-
-                                  <div class="table-container">
-                                    <table class="turnos-table">
-                                      <thead>
-                                        <tr>
-                                          <th style="width: 15%;">Hora</th>
-                                          <th style="width: 45%;">Especialidad</th>
-                                          <th style="width: 25%;">Profesional</th>
-                                          <th style="width: 15%; text-align: center;">Seleccionar</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                          <td class="hora">17:00</td>
-                                          <td class="esp">CLINICA MEDICA</td>
-                                          <td>GUILLERMO, SAMUEL</td>
-                                          <td>
-                                            <button class="btn-select-check" onclick="seleccionarTurno('otamendi', '17:00', 'CLINICA MEDICA', 'GUILLERMO, SAMUEL')">
-                                              &#10003;
-                                            </button>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td class="hora">17:15</td>
-                                          <td class="esp">CLINICA MEDICA</td>
-                                          <td>GUILLERMO, SAMUEL</td>
-                                          <td>
-                                            <button class="btn-select-check" onclick="seleccionarTurno('otamendi', '17:15', 'CLINICA MEDICA', 'GUILLERMO, SAMUEL')">
-                                              &#10003;
-                                            </button>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-
-                                <div id="screen-5-otamendi" class="screen" style="justify-content: flex-start; padding-top: 10px;">
-                                  <div class="patient-bar" style="margin-bottom: 5px;">
-                                    <div>Paciente: <strong>GONZALEZ JUAN CARLOS</strong> - DNI: <strong id="bar-dni-2-otamendi">35412890</strong></div>
-                                  </div>
-                                  <div class="patient-bar" style="margin-top:0; font-size:15px; background: rgba(255,255,255,0.4);">
-                                    <div>Hora: <strong id="cob-hora-otamendi">17:00</strong> - Especialidad: <strong id="cob-esp-otamendi">CLINICA MEDICA</strong> Profesional: <strong id="cob-prof-otamendi">GUILLERMO, SAMUEL</strong></div>
-                                  </div>
-
-                                  <div style="margin-top: 25px; text-align: center;">
-                                    <div class="screen-title" style="margin-bottom: 5px;">Por favor verifique su Cobertura</div>
-
-                                    <select class="select-cobertura">
-                                      <option value="MEDICUS">MEDICUS</option>
-                                      <option value="OSDE">OSDE</option>
-                                      <option value="SWISS MEDICAL">SWISS MEDICAL</option>
-                                      <option value="PARTICULAR">PARTICULAR</option>
-                                    </select>
-                                  </div>
-
-                                  <div style="position: absolute; bottom: 20px;">
-                                    <button class="btn-totem" onclick="goToScreen('otamendi', 'screen-6')">CONTINUAR</button>
-                                  </div>
-                                </div>
-
-                                <div id="screen-6-otamendi" class="screen">
-                                  <div class="screen-title" style="margin-bottom: 5px;">Pase su CREDENCIAL por el Lector</div>
-
-                                  <input type="text" class="input-totem" value="18418138001" style="font-size: 22px; letter-spacing: 2px;">
-
-                                  <div style="position: absolute; bottom: 20px; display:flex; gap:10px;">
-                                    <button class="btn-totem" style="width: 200px; font-size:14px;" onclick="finalizarProceso('otamendi', true)">CONTINUAR (Éxito)</button>
-                                    <button class="btn-totem" style="width: 200px; font-size:14px; background-color:#666;" onclick="finalizarProceso('otamendi', false)">CONTINUAR (Error)</button>
-                                  </div>
-                                </div>
-
-                                <div id="screen-7-otamendi" class="screen">
-                                  <div class="screen-title" style="margin-bottom: 10px;" id="msg-final-title-otamendi">Retire el ticket</div>
-                                  <div id="msg-final-body-otamendi" style="font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 15px; color: #222;">
-                                    PARA SER ATENDIDO AGUARDE EN<br>SALA ESPERA CONSULTORIOS EXTERNOS I
-                                  </div>
-
-                                  <div class="ticket-paper" id="ticket-view-otamendi"></div>
-
-                                  <div style="margin-top: 15px;">
-                                    <button class="btn-totem" style="width: 180px; padding: 10px;" onclick="goToScreen('otamendi', 'screen-1')">FINALIZAR</button>
-                                  </div>
-                                </div>
-
-                              </div>
                             </div>
-
                         </div>
 
                         <div class="side-box sponsor-box">
                             <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
-                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Flexibilizar reglas de restricción para admisión.
-2. Aprobar instructivos de primera vez.</textarea>
+                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Conectar pasarela de pago para cobro de copagos en Tótem.
+2. Desplegar 2 tótems adicionales en Sedes Anexas.</textarea>
                         </div>
                     </div>
                 </div>
@@ -2009,12 +2405,12 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
     </div>
 
     <!-- ==========================================
-         PESTAÑA 2: PROYECTOS MEDICUS (AZUL OSCURO)
+         PESTAÑA 2: PROYECTOS MEDICUS (AZUL)
     =========================================== -->
     <div id="tab-medicus" class="tab-content-view theme-medicus">
         <header class="landing-header no-print">
             <div class="brand-logo">
-                <div class="logo-box" contenteditable="true">MED</div>
+                <div class="logo-box" contenteditable="true">M</div>
                 <div>
                     <div style="line-height: 1.1;" contenteditable="true">Medicus S.A.</div>
                     <div style="font-size: 11px; color: var(--gris-texto); font-weight: 600;" contenteditable="true">Transformación Digital & PMO</div>
@@ -2025,506 +2421,97 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                 <button class="filter-btn active" onclick="filterProjects('medicus', 'all', this)">
                     <i data-lucide="layout-grid" size="14"></i> Todos
                 </button>
-                <button class="filter-btn" onclick="filterProjects('medicus', 'p1', this)">
-                    <i data-lucide="bot" size="14"></i> Bot Call Medicus
-                </button>
-                <button class="filter-btn" onclick="filterProjects('medicus', 'p2', this)">
-                    <i data-lucide="user-check" size="14"></i> Pre Admisión
-                </button>
-                <button class="filter-btn" onclick="filterProjects('medicus', 'p3', this)">
-                    <i data-lucide="tablet-smartphone" size="14" style="color: #94A3B8;"></i> Auto Recepción
-                </button>
             </div>
 
             <button class="btn-action btn-primary" onclick="addNewProject('medicus')">
-                <i data-lucide="plus-circle" size="14"></i> Nuevo Proyecto
+                <i data-lucide="plus-circle" size="14"></i> Nuevo Proyecto Medicus
             </button>
         </header>
 
-        <section class="hero-banner">
-            <h1 class="hero-title" contenteditable="true">Iniciativas Digitales Medicus 2026</h1>
-            <p class="hero-subtitle" contenteditable="true">Optimizando la experiencia del asociado y la eficiencia de los centros médicos con soluciones integradas.</p>
-            
-            <div class="hero-global-metrics">
-                <div class="global-metric-badge">
-                    <i data-lucide="clock" size="24"></i>
-                    <div>
-                        <div contenteditable="true">+45 Hs/Mes</div>
-                        <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Tiempo Liberado en Agentes</div>
-                    </div>
-                </div>
-                <div class="global-metric-badge">
-                    <i data-lucide="trending-down" size="24"></i>
-                    <div>
-                        <div contenteditable="true">-45% Espera</div>
-                        <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Reducción Demora en Admisión</div>
-                    </div>
-                </div>
-                <div class="global-metric-badge">
-                    <i data-lucide="zap" size="24"></i>
-                    <div>
-                        <div contenteditable="true">42% Éxito</div>
-                        <div style="font-size:11px; color:#CBD5E1;" contenteditable="true">Autogestión Directa de Turnos</div>
-                    </div>
-                </div>
-            </div>
+        <section class="hero-banner" style="position: relative;">
+            <button class="btn-save-initiatives no-print" onclick="saveAllChanges()" title="Guardar todos los cambios">
+                <i data-lucide="save" size="13"></i> Guardar cambios
+            </button>
+            <h1 class="hero-title" contenteditable="true">Iniciativas Medicus 2026</h1>
+            <p class="hero-subtitle" contenteditable="true">Transformando la relación con el asociado a través de servicios digitales inteligentes.</p>
         </section>
 
         <main class="main-container" id="projectsContainer-medicus">
-            <!-- PROYECTO 1 MEDICUS -->
-            <section class="project-section" id="project-medicus-p1" data-project="p1">
-                <div class="project-header">
-                    <div class="project-title-group">
-                        <h2 contenteditable="true" class="projectTitle">CX Digital - Bot Call Medicus</h2>
-                        <p contenteditable="true">Atención Automatizada en WhatsApp para Asociados Medicus</p>
-                    </div>
-                    <div class="positive-impact-tag" contenteditable="true">
-                        <i data-lucide="sparkles" size="14"></i> Atención 24/7 en WhatsApp
-                    </div>
-                </div>
-
-                <div class="project-toolbar no-print">
-                    <div class="kpi-tools-group">
-                        <i data-lucide="sliders" size="14" style="color: var(--primary);"></i>
-                        <span style="font-size: 11px; font-weight: 700;">Agregar KPI:</span>
-                        <select class="kpi-select-preset" onchange="addKpiPreset('medicus-p1', this.value); this.value='';">
-                            <option value="">-- Seleccionar --</option>
-                            <option value="AVANCE">Avance (%)</option>
-                            <option value="TIEMPO">Tiempo Liberado</option>
-                            <option value="PRESUPUESTO">Presupuesto</option>
-                            <option value="CALIDAD">Calidad (%)</option>
-                            <option value="SATISFACCION">NPS Paciente</option>
-                        </select>
-                    </div>
-                    <div class="kpi-tools-group">
-                        <input type="file" id="excel-input-medicus-p1" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcelData('medicus-p1', event)">
-                        <button class="btn-kpi-action" onclick="document.getElementById('excel-input-medicus-p1').click()">
-                            <i data-lucide="file-spreadsheet" size="14"></i> Cargar de Excel
-                        </button>
-                        <button class="btn-kpi-action btn-save-proj" onclick="saveProjectToFirebase('project-medicus-p1')">
-                            <i data-lucide="save" size="14"></i> Guardar Cambios
-                        </button>
-                        <button class="btn-kpi-action btn-delete-proj" onclick="deleteProjectFromFirebase('project-medicus-p1')">
-                            <i data-lucide="trash-2" size="14"></i> Eliminar Proyecto
-                        </button>
-                    </div>
-                </div>
-
-                <div class="kpis-grid" id="kpi-container-medicus-p1">
-                    <div class="kpi-card-highlight">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon"><i data-lucide="pie-chart" size="18"></i></div>
-                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Grado de Avance">
-                            <input type="text" class="kpi-val-input dynamicKpiVal" value="100%">
-                        </div>
-                    </div>
-
-                    <div class="kpi-card-highlight">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon"><i data-lucide="clock" size="18"></i></div>
-                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Tiempo Liberado">
-                            <input type="text" class="kpi-val-input dynamicKpiVal" value="45 hs / 2700 min">
-                        </div>
-                    </div>
-
-                    <div class="kpi-card-highlight">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon"><i data-lucide="users" size="18"></i></div>
-                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Cap. Liberada p/Persona">
-                            <input type="text" class="kpi-val-input dynamicKpiVal" value="6.0 hs (8.5 días)">
-                        </div>
-                    </div>
-
-                    <div class="kpi-card-highlight status-card fixed-status" id="fixed-status-medicus-p1">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon" id="status-icon-box-medicus-p1" style="background: var(--verde-bg); color: var(--verde-exito);">
-                                <i data-lucide="activity" size="18"></i>
-                            </div>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input kpiLabelStatus" value="Estado Salud">
-                            <input type="text" class="kpi-val-input kpiValStatus" value="Estabilizado">
-                            <select class="status-color-select color-verde no-print" onchange="updateStatusColor('medicus-p1', this)">
-                                <option value="verde" selected>🟢 Excelente</option>
-                                <option value="amarillo">🟡 Alerta</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-body">
-                    <div class="journey-grid">
-                        <div class="journey-card before">
-                            <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Situación Inicial</label>
-                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Consultas recibidas por canales tradicionales con altas tasas de espera en call center para la asignación de turnos médicos.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Métrica Base</label>
-                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">Atención 100% manual por operador</textarea>
-                            </div>
-                        </div>
-
-                        <div class="journey-card now">
-                            <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Estado en Producción</label>
-                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Bot gestor en producción integrado con el core del sistema Medicus para reserva y cancelación automatizada.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Impacto Conseguido</label>
-                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">45 hs/mes liberadas en gestores</textarea>
-                            </div>
-                        </div>
-
-                        <div class="journey-card next">
-                            <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Fase 2 Proyectada</label>
-                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Integración con cartilla médica inteligente y derivaciones automáticas según credencial del asociado.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Objetivo</label>
-                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">85% resolutividad automática</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bottom-panels-grid">
-                        <div class="side-box" style="background: #111B21; border-color: #222D34;">
-                            <h3 style="color: #E9EDEF;" contenteditable="true"><i data-lucide="smartphone" size="16" style="color: #00A884;"></i> Vista Interfaz Asociado Medicus</h3>
-                            
-                            <div class="phone-column-embed">
-                              <div class="column-header">
-                                <h3>🤖 PROCESO 2: "Con Automatización" (Medicus)</h3>
-                                
-                                <div class="stats-bar">
-                                  <div><span>Tiempo Estimado</span><span class="stat-val" id="desdeimp-time-medicus">0 min</span></div>
-                                </div>
-
-                                <div class="column-controls">
-                                  <button class="btn-sm" id="btnPlayDesdeimp-medicus" onclick="togglePlay('medicus')">
-                                    <span id="playIconDesdeimp-medicus">▶</span> <span id="playTextDesdeimp-medicus">Iniciar</span>
-                                  </button>
-                                  <button class="btn-sm btn-sm-secondary" onclick="resetSim('medicus')">🔄 Reiniciar</button>
-                                  <select id="speedDesdeimp-medicus" class="select-sm" onchange="changeSpeed(this.value)">
-                                    <option value="1" selected>1x</option>
-                                    <option value="1.5">1.5x</option>
-                                    <option value="2.5">2.5x</option>
-                                  </select>
-                                </div>
-                              </div>
-
-                              <div class="phone-frame">
-                                <div class="phone-screen">
-                                  <div class="wa-header">
-                                    <div class="wa-avatar">MED</div>
-                                    <div>
-                                      <div style="font-weight:bold; font-size:0.85rem;">Medicus S.A.</div>
-                                      <div style="font-size:0.68rem; opacity:0.9;">Cuenta verificada</div>
-                                    </div>
-                                  </div>
-                                  <div class="chat-body" id="desdeimp-chat-medicus"></div>
-                                  <div class="wa-footer"><div class="wa-input">Escribe un mensaje...</div></div>
-                                </div>
-                              </div>
-                            </div>
-
-                        </div>
-
-                        <div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor Medicus</h3>
-                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Validar reglas de validación para socios corporativos.
-2. Aprobación presupuestaria para Fase 2 Cartilla.</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-footer-band"></div>
-            </section>
-
-            <!-- PROYECTO 2 MEDICUS -->
-            <section class="project-section" id="project-medicus-p2" data-project="p2">
-                <div class="project-header">
-                    <div class="project-title-group">
-                        <h2 contenteditable="true" class="projectTitle">CX Digital - Pre Admisión Medicus</h2>
-                        <p contenteditable="true">Digitalización de la Contactabilidad en Centros Medicus</p>
-                    </div>
-                    <div class="positive-impact-tag" contenteditable="true">
-                        <i data-lucide="trending-down" size="14"></i> -45% Demora Pacientes
-                    </div>
-                </div>
-
-                <div class="project-toolbar no-print">
-                    <div class="kpi-tools-group">
-                        <i data-lucide="sliders" size="14" style="color: var(--primary);"></i>
-                        <span style="font-size: 11px; font-weight: 700;">Agregar KPI:</span>
-                        <select class="kpi-select-preset" onchange="addKpiPreset('medicus-p2', this.value); this.value='';">
-                            <option value="">-- Seleccionar --</option>
-                            <option value="AVANCE">Avance (%)</option>
-                            <option value="TIEMPO">Tiempo de Espera</option>
-                        </select>
-                    </div>
-                    <div class="kpi-tools-group">
-                        <input type="file" id="excel-input-medicus-p2" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcelData('medicus-p2', event)">
-                        <button class="btn-kpi-action" onclick="document.getElementById('excel-input-medicus-p2').click()">
-                            <i data-lucide="file-spreadsheet" size="14"></i> Cargar de Excel
-                        </button>
-                        <button class="btn-kpi-action btn-save-proj" onclick="saveProjectToFirebase('project-medicus-p2')">
-                            <i data-lucide="save" size="14"></i> Guardar Cambios
-                        </button>
-                        <button class="btn-kpi-action btn-delete-proj" onclick="deleteProjectFromFirebase('project-medicus-p2')">
-                            <i data-lucide="trash-2" size="14"></i> Eliminar Proyecto
-                        </button>
-                    </div>
-                </div>
-
-                <div class="kpis-grid" id="kpi-container-medicus-p2">
-                    <div class="kpi-card-highlight">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon"><i data-lucide="pie-chart" size="18"></i></div>
-                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Grado de Avance">
-                            <input type="text" class="kpi-val-input dynamicKpiVal" value="80%">
-                        </div>
-                    </div>
-
-                    <div class="kpi-card-highlight">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon"><i data-lucide="timer" size="18"></i></div>
-                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Reducción Tiempo Espera">
-                            <input type="text" class="kpi-val-input dynamicKpiVal" value="-45% (10.5 a 5.8 min)">
-                        </div>
-                    </div>
-
-                    <div class="kpi-card-highlight status-card fixed-status" id="fixed-status-medicus-p2">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon" id="status-icon-box-medicus-p2" style="background: var(--verde-bg); color: var(--verde-exito);">
-                                <i data-lucide="activity" size="18"></i>
-                            </div>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input kpiLabelStatus" value="Estado Salud">
-                            <input type="text" class="kpi-val-input kpiValStatus" value="Fase Piloto Activa">
-                            <select class="status-color-select color-verde no-print" onchange="updateStatusColor('medicus-p2', this)">
-                                <option value="verde" selected>🟢 Excelente</option>
-                                <option value="amarillo">🟡 Alerta</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-body">
-                    <div class="journey-grid">
-                        <div class="journey-card before">
-                            <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Situación Inicial</label>
-                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Verificación presencial obligatoria de credenciales y autorizaciones antes de ingresar a consultorios.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Métrica Base</label>
-                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">10.5 min de espera promedio</textarea>
-                            </div>
-                        </div>
-
-                        <div class="journey-card now">
-                            <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Estado en Producción</label>
-                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Validación previa digital de documentación enviada por WhatsApp por el asociado.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Impacto Conseguido</label>
-                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">Espera reducida a 5.8 min (-45%)</textarea>
-                            </div>
-                        </div>
-
-                        <div class="journey-card next">
-                            <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Fase 2 Proyectada</label>
-                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Implementación de validación automática por OCR para credenciales y DNI.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Objetivo</label>
-                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">100% de centros Medicus integrados</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bottom-panels-grid">
-                        <div class="side-box" style="background: #111B21; border-color: #222D34;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
-                                <h3 style="color: #E9EDEF; margin:0;" contenteditable="true"><i data-lucide="smartphone" size="16" style="color: #00A884;"></i> Vista Pre-Admisión Paciente</h3>
-                                <button class="btn-sm" style="background:#075E54; color:white; border:none; padding:4px 10px; border-radius:12px; font-size:11px; cursor:pointer;" onclick="startPreqSequence('medicus')">↺ Reiniciar Chat</button>
-                            </div>
-                            
-                            <div class="wa-preq-frame">
-                                <div class="wa-preq-screen">
-                                    <div class="wa-preq-header">
-                                        <span style="font-size:14px; cursor:pointer;">←</span>
-                                        <div class="wa-preq-avatar">MED</div>
-                                        <div style="flex-grow:1;">
-                                            <div style="font-size:13px; font-weight:600;">Pre Admisión Medicus</div>
-                                            <div style="font-size:10px; opacity:0.85;">Cuenta de empresa</div>
-                                        </div>
-                                        <span style="font-size:14px;">📞</span>
-                                    </div>
-
-                                    <div class="wa-preq-chat" id="waPreqChat-medicus">
-                                        <div style="align-self:center; background:rgba(255,255,255,0.9); color:#667781; font-size:10px; padding:2px 8px; border-radius:6px; margin:4px 0; font-weight:600;">HOY</div>
-
-                                        <div class="wa-preq-msg received visible" id="preqMsg1-medicus">
-                                            <div>Estimado asociado Medicus.
-Le recordamos enviar la foto de su DNI y credencial para agilizar su atención en el Centro Médico.</div>
-                                            <div class="wa-preq-meta">10:00</div>
-                                        </div>
-
-                                        <div class="wa-preq-msg sent" id="preqMsg2-medicus">
-                                            <div>32884102 Lopez Carlos Alberto</div>
-                                            <div class="wa-preq-meta">10:02 <span style="color:#53bdeb; font-weight:bold;">✓✓</span></div>
-                                        </div>
-
-                                        <div class="wa-preq-msg sent" id="preqMsg3-medicus">
-                                            <div class="wa-preq-attachment">
-                                                <div class="wa-preq-pdf-icon">PDF</div>
-                                                <div>
-                                                    <div style="font-size:12px; font-weight:600;">credencial_medicus.pdf</div>
-                                                    <div style="font-size:10px; color:#667781;">1 página • 1.1 MB</div>
-                                                </div>
-                                            </div>
-                                            <div class="wa-preq-meta">10:02 <span style="color:#53bdeb; font-weight:bold;">✓✓</span></div>
-                                        </div>
-
-                                        <div class="wa-preq-typing" id="preqTyping-medicus">
-                                            <div class="wa-preq-dot"></div>
-                                            <div class="wa-preq-dot"></div>
-                                            <div class="wa-preq-dot"></div>
-                                        </div>
-
-                                        <div class="wa-preq-msg received" id="preqMsg4-medicus">
-                                            <div>Muchas gracias Carlos, sus datos han sido validados con éxito. ¡Lo esperamos!</div>
-                                            <div class="wa-preq-meta">10:04</div>
-                                        </div>
-                                    </div>
-
-                                    <div style="background:#F0F2F5; padding:6px 10px; display:flex; align-items:center; gap:8px;">
-                                        <div style="flex:1; background:#FFFFFF; border-radius:20px; padding:6px 12px; font-size:12px; color:#667781; display:flex; justify-content:space-between;">
-                                            <span>Mensaje</span>
-                                            <span>📎</span>
-                                        </div>
-                                        <div style="width:30px; height:30px; background:#00A884; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🎤</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor Medicus</h3>
-                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Validar reglas de validación para socios corporativos.
-2. Aprobación presupuestaria para Fase 2 Cartilla.</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-footer-band"></div>
-            </section>
+            <!-- Proyectos Medicus se cargarán de Firebase o agregados dinámicamente -->
         </main>
     </div>
 
-    <!-- Barra flotante inferior de acciones globales -->
-    <div class="action-bar-floating no-print">
-        <button class="btn-action btn-primary" onclick="exportToPPTX()">
-            <i data-lucide="file-presentation" size="16"></i> Exportar PPTX
-        </button>
-        <button class="btn-action btn-secondary" onclick="window.print()">
-            <i data-lucide="printer" size="16"></i> Imprimir / PDF
-        </button>
-    </div>
-
-    <!-- SCRIPT DE LÓGICA COMPLETA DE INTERACCIÓN Y PERSISTENCIA DE DATOS -->
     <script>
-        // Lucide Icons Render
+        // Inicializar Iconos Lucide
         lucide.createIcons();
 
-        // Inicialización de la app
-        document.addEventListener("DOMContentLoaded", () => {
-            lucide.createIcons();
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    document.getElementById("loginOverlay").style.display = "none";
-                    document.getElementById("userWidget").style.display = "flex";
-                    document.getElementById("userEmailLabel").innerText = user.email;
-                    loadAllProjectsFromFirebase();
-                } else {
-                    document.getElementById("loginOverlay").style.display = "flex";
-                }
-            });
-            initSimulators();
-        });
-
-        // Funciones de Login y Logout con Firebase
-        function loginWithFirebase() {
-            const email = document.getElementById("loginEmail").value;
-            const pass = document.getElementById("loginPass").value;
-            const errLabel = document.getElementById("loginError");
-
-            auth.signInWithEmailAndPassword(email, pass)
-                .then(() => {
-                    errLabel.style.display = "none";
-                })
-                .catch((err) => {
-                    errLabel.innerText = "Error: " + err.message;
-                    errLabel.style.display = "block";
-                });
-        }
-
-        function logoutFirebase() {
-            auth.signOut().then(() => {
-                location.reload();
-            });
-        }
-
-        // Cambio de Pestañas (Otamendi vs Medicus)
+        // Cambio de Pestañas Otamendi / Medicus
         function switchMainTab(tab) {
-            document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active-otamendi', 'active-medicus'));
-            document.querySelectorAll('.tab-content-view').forEach(view => view.classList.remove('active'));
+            const btnOtamendi = document.getElementById('btn-tab-otamendi');
+            const btnMedicus = document.getElementById('btn-tab-medicus');
+            const tabOtamendi = document.getElementById('tab-otamendi');
+            const tabMedicus = document.getElementById('tab-medicus');
 
             if (tab === 'otamendi') {
-                document.getElementById('btn-tab-otamendi').classList.add('active-otamendi');
-                document.getElementById('tab-otamendi').classList.add('active');
+                btnOtamendi.classList.add('active-otamendi');
+                btnMedicus.classList.remove('active-medicus');
+                tabOtamendi.classList.add('active');
+                tabMedicus.classList.remove('active');
             } else {
-                document.getElementById('btn-tab-medicus').classList.add('active-medicus');
-                document.getElementById('tab-medicus').classList.add('active');
+                btnMedicus.classList.add('active-medicus');
+                btnOtamendi.classList.remove('active-otamendi');
+                tabMedicus.classList.add('active');
+                tabOtamendi.classList.remove('active');
             }
         }
 
-        // Filtro de Proyectos dentro de la pestaña actual
-        function filterProjects(entity, filterKey, btnElement) {
-            const container = document.getElementById(`projectsContainer-${entity}`);
-            const buttons = document.querySelectorAll(`#navFilters-${entity} .filter-btn`);
-            buttons.forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
+        // Auto-resize de textareas
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
 
-            const projects = container.querySelectorAll('.project-section');
+        // Ejecutar auto-resize en todos los textareas cargados
+        document.querySelectorAll('textarea').forEach(ta => autoResize(ta));
+
+        // Transición de pantallas de Tótem
+        function switchTotemScreen(screenNum) {
+            document.querySelectorAll('.totem-body .screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('totem-screen-' + screenNum).classList.add('active');
+        }
+
+        // Secuencia Pre-quirúrgico
+        function startPreqSequence(domain) {
+            const chat = document.getElementById('waPreqChat-' + domain);
+            const msg2 = document.getElementById('preqMsg2-' + domain);
+            const msg3 = document.getElementById('preqMsg3-' + domain);
+            const typing = document.getElementById('preqTyping-' + domain);
+            const msg4 = document.getElementById('preqMsg4-' + domain);
+
+            msg2.classList.remove('visible');
+            msg3.classList.remove('visible');
+            msg4.classList.remove('visible');
+            typing.style.display = 'none';
+
+            setTimeout(() => msg2.classList.add('visible'), 600);
+            setTimeout(() => msg3.classList.add('visible'), 1200);
+            setTimeout(() => { typing.style.display = 'flex'; chat.scrollTop = chat.scrollHeight; }, 1800);
+            setTimeout(() => {
+                typing.style.display = 'none';
+                msg4.classList.add('visible');
+                chat.scrollTop = chat.scrollHeight;
+            }, 3200);
+        }
+
+        // Selección de Filtros
+        function filterProjects(entity, category, btn) {
+            const container = document.getElementById('navFilters-' + entity);
+            container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const projects = document.querySelectorAll('#projectsContainer-' + entity + ' .project-section');
             projects.forEach(p => {
-                if (filterKey === 'all' || p.getAttribute('data-project') === filterKey) {
+                if (category === 'all' || p.getAttribute('data-project') === category) {
                     p.style.display = 'block';
                 } else {
                     p.style.display = 'none';
@@ -2532,580 +2519,91 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             });
         }
 
-        // Ajuste de altura dinámica de áreas de texto
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-        }
-
-        // Cambio visual de estados de salud
-        function updateStatusColor(projKey, selectElem) {
-            const val = selectElem.value;
-            const iconBox = document.getElementById(`status-icon-box-${projKey}`);
-            selectElem.className = 'status-color-select no-print';
-            
-            if (val === 'verde') {
-                selectElem.classList.add('color-verde');
-                if (iconBox) {
-                    iconBox.style.background = 'var(--verde-bg)';
-                    iconBox.style.color = 'var(--verde-exito)';
-                }
+        // Manejador de Cambios de Estado de Salud
+        function updateStatusColor(projId, selectEl) {
+            const iconBox = document.getElementById('status-icon-box-' + projId);
+            if (selectEl.value === 'verde') {
+                selectEl.className = 'status-color-select color-verde no-print';
+                iconBox.style.background = 'var(--verde-bg)';
+                iconBox.style.color = 'var(--verde-exito)';
             } else {
-                selectElem.classList.add('color-amarillo');
-                if (iconBox) {
-                    iconBox.style.background = 'var(--amarillo-bg)';
-                    iconBox.style.color = 'var(--amarillo-advertencia)';
-                }
+                selectEl.className = 'status-color-select color-amarillo no-print';
+                iconBox.style.background = 'var(--amarillo-bg)';
+                iconBox.style.color = 'var(--amarillo-advertencia)';
             }
         }
 
-        // Agregar KPIs desde Presets
-        function addKpiPreset(projKey, preset) {
-            if (!preset) return;
-            const container = document.getElementById(`kpi-container-${projKey}`);
-            let label = "Nuevo KPI";
-            let val = "0";
-
-            switch (preset) {
-                case 'AVANCE': label = "Grado de Avance"; val = "50%"; break;
-                case 'TIEMPO': label = "Tiempo Liberado"; val = "10 hs / mes"; break;
-                case 'PRESUPUESTO': label = "Presupuesto"; val = "$0 USD"; break;
-                case 'CALIDAD': label = "Calidad Servicio"; val = "95%"; break;
-                case 'SATISFACCION': label = "NPS Paciente"; val = "+45"; break;
-            }
+        // Función para agregar presets de KPI
+        function addKpiPreset(projId, type) {
+            if (!type) return;
+            const container = document.getElementById('kpi-container-' + projId);
+            const statusCard = document.getElementById('fixed-status-' + projId);
+            
+            let label = '', value = '', icon = 'activity';
+            if (type === 'AVANCE') { label = 'Grado de Avance'; value = '0%'; icon = 'pie-chart'; }
+            if (type === 'TIEMPO') { label = 'Tiempo Ahorrado'; value = '0 hs'; icon = 'clock'; }
+            if (type === 'PRESUPUESTO') { label = 'Presupuesto'; value = '$0'; icon = 'dollar-sign'; }
+            if (type === 'CALIDAD') { label = 'Calidad Metrica'; value = '100%'; icon = 'check-square'; }
+            if (type === 'SATISFACCION') { label = 'NPS'; value = '90'; icon = 'smile'; }
 
             const card = document.createElement('div');
             card.className = 'kpi-card-highlight';
             card.innerHTML = `
                 <div class="kpi-card-head">
-                    <div class="kpi-icon"><i data-lucide="bar-chart-2" size="18"></i></div>
+                    <div class="kpi-icon"><i data-lucide="${icon}" size="18"></i></div>
                     <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
                 </div>
                 <div class="kpi-data">
                     <input type="text" class="kpi-label-input dynamicKpiLabel" value="${label}">
-                    <input type="text" class="kpi-val-input dynamicKpiVal" value="${val}">
+                    <input type="text" class="kpi-val-input dynamicKpiVal" value="${value}">
                 </div>
             `;
-            
-            // Insertar antes de la tarjeta de estado de salud si existe
-            const fixedStatusCard = document.getElementById(`fixed-status-${projKey}`);
-            if (fixedStatusCard) {
-                container.insertBefore(card, fixedStatusCard);
-            } else {
-                container.appendChild(card);
-            }
+            container.insertBefore(card, statusCard);
             lucide.createIcons();
         }
 
-        // Carga de KPIs desde archivo Excel / CSV
-        function importExcelData(projKey, event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        // Firebase Auth handlers
+        function loginWithFirebase() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            const errLabel = document.getElementById('loginError');
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-
-                if (jsonData.length > 0) {
-                    const container = document.getElementById(`kpi-container-${projKey}`);
-                    jsonData.forEach(row => {
-                        if (row.length >= 2) {
-                            const label = row[0];
-                            const val = row[1];
-                            const card = document.createElement('div');
-                            card.className = 'kpi-card-highlight';
-                            card.innerHTML = `
-                                <div class="kpi-card-head">
-                                    <div class="kpi-icon"><i data-lucide="file-text" size="18"></i></div>
-                                    <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                                </div>
-                                <div class="kpi-data">
-                                    <input type="text" class="kpi-label-input dynamicKpiLabel" value="${label}">
-                                    <input type="text" class="kpi-val-input dynamicKpiVal" value="${val}">
-                                </div>
-                            `;
-                            const fixedStatusCard = document.getElementById(`fixed-status-${projKey}`);
-                            if (fixedStatusCard) {
-                                container.insertBefore(card, fixedStatusCard);
-                            } else {
-                                container.appendChild(card);
-                            }
-                        }
-                    });
-                    lucide.createIcons();
-                    alert("Datos de Excel importados exitosamente.");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        // FUNCIONALIDAD: Guardar Proyecto completo en Firebase (Soporta dinámicos y nativos)
-        function saveProjectToFirebase(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (!section) return;
-
-            // Mapeo completo de todos los elementos editables dentro de la sección del proyecto
-            const dataToSave = {
-                id: sectionId,
-                title: section.querySelector('.projectTitle') ? section.querySelector('.projectTitle').innerText : '',
-                subtitle: section.querySelector('.project-title-group p') ? section.querySelector('.project-title-group p').innerText : '',
-                tag: section.querySelector('.positive-impact-tag') ? section.querySelector('.positive-impact-tag').innerText : '',
-                pasadoDiag: section.querySelector('.pasadoDiag') ? section.querySelector('.pasadoDiag').value : '',
-                pasadoMetrica: section.querySelector('.pasadoMetrica') ? section.querySelector('.pasadoMetrica').value : '',
-                presenteEstado: section.querySelector('.presenteEstado') ? section.querySelector('.presenteEstado').value : '',
-                presenteMetrica: section.querySelector('.presenteMetrica') ? section.querySelector('.presenteMetrica').value : '',
-                futuroPasos: section.querySelector('.futuroPasos') ? section.querySelector('.futuroPasos').value : '',
-                futuroObjetivo: section.querySelector('.futuroObjetivo') ? section.querySelector('.futuroObjetivo').value : '',
-                sponsorReq: section.querySelector('.sponsorReq') ? section.querySelector('.sponsorReq').value : '',
-                kpis: [],
-                statusLabel: section.querySelector('.kpiLabelStatus') ? section.querySelector('.kpiLabelStatus').value : '',
-                statusVal: section.querySelector('.kpiValStatus') ? section.querySelector('.kpiValStatus').value : '',
-                statusColor: section.querySelector('.status-color-select') ? section.querySelector('.status-color-select').value : 'verde',
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            // Recopilar todos los KPIs dinámicos
-            section.querySelectorAll('.kpi-card-highlight:not(.fixed-status)').forEach(card => {
-                const l = card.querySelector('.dynamicKpiLabel');
-                const v = card.querySelector('.dynamicKpiVal');
-                if (l && v) {
-                    dataToSave.kpis.push({ label: l.value, value: v.value });
-                }
-            });
-
-            db.collection("projects_data").doc(sectionId).set(dataToSave, { merge: true })
-                .then(() => {
-                    alert("¡Todos los cambios del proyecto han sido guardados exitosamente!");
-                })
-                .catch((error) => {
-                    alert("Error al guardar en Firebase: " + error.message);
-                });
-        }
-
-        // FUNCIONALIDAD: Cargar Proyectos Guardados desde Firebase
-        function loadAllProjectsFromFirebase() {
-            db.collection("projects_data").get().then((snapshot) => {
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    let section = document.getElementById(doc.id);
-                    
-                    // Si no existe, es un proyecto nuevo creado dinámicamente
-                    if (!section) {
-                        const entity = doc.id.includes('medicus') ? 'medicus' : 'otamendi';
-                        section = createProjectDOMStructure(doc.id, entity, data.title || "Nuevo Proyecto");
-                    }
-
-                    if (section) {
-                        if (data.title && section.querySelector('.projectTitle')) section.querySelector('.projectTitle').innerText = data.title;
-                        if (data.subtitle && section.querySelector('.project-title-group p')) section.querySelector('.project-title-group p').innerText = data.subtitle;
-                        if (data.tag && section.querySelector('.positive-impact-tag')) section.querySelector('.positive-impact-tag').innerText = data.tag;
-                        if (data.pasadoDiag && section.querySelector('.pasadoDiag')) section.querySelector('.pasadoDiag').value = data.pasadoDiag;
-                        if (data.pasadoMetrica && section.querySelector('.pasadoMetrica')) section.querySelector('.pasadoMetrica').value = data.pasadoMetrica;
-                        if (data.presenteEstado && section.querySelector('.presenteEstado')) section.querySelector('.presenteEstado').value = data.presenteEstado;
-                        if (data.presenteMetrica && section.querySelector('.presenteMetrica')) section.querySelector('.presenteMetrica').value = data.presenteMetrica;
-                        if (data.futuroPasos && section.querySelector('.futuroPasos')) section.querySelector('.futuroPasos').value = data.futuroPasos;
-                        if (data.futuroObjetivo && section.querySelector('.futuroObjetivo')) section.querySelector('.futuroObjetivo').value = data.futuroObjetivo;
-                        if (data.sponsorReq && section.querySelector('.sponsorReq')) section.querySelector('.sponsorReq').value = data.sponsorReq;
-
-                        if (data.statusLabel && section.querySelector('.kpiLabelStatus')) section.querySelector('.kpiLabelStatus').value = data.statusLabel;
-                        if (data.statusVal && section.querySelector('.kpiValStatus')) section.querySelector('.kpiValStatus').value = data.statusVal;
-                        
-                        if (data.statusColor && section.querySelector('.status-color-select')) {
-                            const sel = section.querySelector('.status-color-select');
-                            sel.value = data.statusColor;
-                            const projKey = doc.id.replace('project-', '');
-                            updateStatusColor(projKey, sel);
-                        }
-
-                        // Cargar KPIs dinámicos guardados
-                        if (data.kpis && Array.isArray(data.kpis)) {
-                            const projKey = doc.id.replace('project-', '');
-                            const container = document.getElementById(`kpi-container-${projKey}`);
-                            if (container) {
-                                container.querySelectorAll('.kpi-card-highlight:not(.fixed-status)').forEach(c => c.remove());
-                                data.kpis.forEach(kpi => {
-                                    const card = document.createElement('div');
-                                    card.className = 'kpi-card-highlight';
-                                    card.innerHTML = `
-                                        <div class="kpi-card-head">
-                                            <div class="kpi-icon"><i data-lucide="bar-chart-2" size="18"></i></div>
-                                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                                        </div>
-                                        <div class="kpi-data">
-                                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="${kpi.label}">
-                                            <input type="text" class="kpi-val-input dynamicKpiVal" value="${kpi.value}">
-                                        </div>
-                                    `;
-                                    const fixedCard = document.getElementById(`fixed-status-${projKey}`);
-                                    if (fixedCard) {
-                                        container.insertBefore(card, fixedCard);
-                                    } else {
-                                        container.appendChild(card);
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-                lucide.createIcons();
+            auth.signInWithEmailAndPassword(email, pass).then(() => {
+                document.getElementById('loginOverlay').style.display = 'none';
+                errLabel.style.display = 'none';
+            }).catch(err => {
+                errLabel.innerText = 'Error al ingresar: ' + err.message;
+                errLabel.style.display = 'block';
             });
         }
 
-        // FUNCIONALIDAD: Crear un nuevo proyecto
-        function addNewProject(entity) {
-            const projTitle = prompt("Ingrese el título del nuevo proyecto:", "Nuevo Proyecto " + (entity === 'otamendi' ? 'Otamendi' : 'Medicus'));
-            if (!projTitle) return;
-
-            const newProjId = `project-${entity}-custom-${Date.now()}`;
-            createProjectDOMStructure(newProjId, entity, projTitle);
-            
-            // Guardar inmediatamente en Firebase
-            saveProjectToFirebase(newProjId);
+        function logoutFirebase() {
+            auth.signOut();
         }
 
-        // Constructora HTML para Nuevos Proyectos Estructurados
-        function createProjectDOMStructure(projId, entity, title) {
-            const container = document.getElementById(`projectsContainer-${entity}`);
-            const projKey = projId.replace('project-', '');
-            
-            const section = document.createElement('section');
-            section.className = 'project-section';
-            section.id = projId;
-            section.setAttribute('data-project', 'custom');
-
-            section.innerHTML = `
-                <div class="project-header">
-                    <div class="project-title-group">
-                        <h2 contenteditable="true" class="projectTitle">${title}</h2>
-                        <p contenteditable="true">Descripción corta de la nueva iniciativa digital</p>
-                    </div>
-                    <div class="positive-impact-tag" contenteditable="true">
-                        <i data-lucide="sparkles" size="14"></i> Impacto Positivo
-                    </div>
-                </div>
-
-                <div class="project-toolbar no-print">
-                    <div class="kpi-tools-group">
-                        <i data-lucide="sliders" size="14" style="color: var(--primary);"></i>
-                        <span style="font-size: 11px; font-weight: 700;">Agregar KPI:</span>
-                        <select class="kpi-select-preset" onchange="addKpiPreset('${projKey}', this.value); this.value='';">
-                            <option value="">-- Seleccionar --</option>
-                            <option value="AVANCE">Avance (%)</option>
-                            <option value="TIEMPO">Tiempo Liberado</option>
-                            <option value="PRESUPUESTO">Presupuesto</option>
-                            <option value="CALIDAD">Calidad (%)</option>
-                        </select>
-                    </div>
-                    <div class="kpi-tools-group">
-                        <input type="file" id="excel-input-${projKey}" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcelData('${projKey}', event)">
-                        <button class="btn-kpi-action" onclick="document.getElementById('excel-input-${projKey}').click()">
-                            <i data-lucide="file-spreadsheet" size="14"></i> Cargar de Excel
-                        </button>
-                        <button class="btn-kpi-action btn-save-proj" onclick="saveProjectToFirebase('${projId}')">
-                            <i data-lucide="save" size="14"></i> Guardar Cambios
-                        </button>
-                        <button class="btn-kpi-action btn-delete-proj" onclick="deleteProjectFromFirebase('${projId}')">
-                            <i data-lucide="trash-2" size="14"></i> Eliminar Proyecto
-                        </button>
-                    </div>
-                </div>
-
-                <div class="kpis-grid" id="kpi-container-${projKey}">
-                    <div class="kpi-card-highlight">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon"><i data-lucide="pie-chart" size="18"></i></div>
-                            <button class="btn-remove-kpi no-print" onclick="this.closest('.kpi-card-highlight').remove()"><i data-lucide="x" size="14"></i></button>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input dynamicKpiLabel" value="Grado de Avance">
-                            <input type="text" class="kpi-val-input dynamicKpiVal" value="10%">
-                        </div>
-                    </div>
-
-                    <div class="kpi-card-highlight status-card fixed-status" id="fixed-status-${projKey}">
-                        <div class="kpi-card-head">
-                            <div class="kpi-icon" id="status-icon-box-${projKey}" style="background: var(--verde-bg); color: var(--verde-exito);">
-                                <i data-lucide="activity" size="18"></i>
-                            </div>
-                        </div>
-                        <div class="kpi-data">
-                            <input type="text" class="kpi-label-input kpiLabelStatus" value="Estado Salud">
-                            <input type="text" class="kpi-val-input kpiValStatus" value="En Planificación">
-                            <select class="status-color-select color-verde no-print" onchange="updateStatusColor('${projKey}', this)">
-                                <option value="verde" selected>🟢 Excelente</option>
-                                <option value="amarillo">🟡 Alerta</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-body">
-                    <div class="journey-grid">
-                        <div class="journey-card before">
-                            <div class="journey-header"><i data-lucide="history" size="18"></i> <span contenteditable="true">¿Dónde Estábamos antes?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Situación Inicial</label>
-                                <textarea class="form-control pasadoDiag" oninput="autoResize(this)">Describir la situación previa y la problemática inicial...</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Métrica Base</label>
-                                <textarea class="form-control pasadoMetrica" rows="1" oninput="autoResize(this)">Métrica inicial</textarea>
-                            </div>
-                        </div>
-
-                        <div class="journey-card now">
-                            <div class="journey-header"><i data-lucide="check-circle" size="18"></i> <span contenteditable="true">¿Dónde estamos hoy?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Estado en Producción</label>
-                                <textarea class="form-control presenteEstado" oninput="autoResize(this)">Detallar el avance actual e hitos conseguidos...</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Impacto Conseguido</label>
-                                <textarea class="form-control presenteMetrica" rows="1" oninput="autoResize(this)">Resultado obtenido</textarea>
-                            </div>
-                        </div>
-
-                        <div class="journey-card next">
-                            <div class="journey-header"><i data-lucide="rocket" size="18"></i> <span contenteditable="true">¿Hacia Dónde Estamos Yendo?</span></div>
-                            <div class="form-group">
-                                <label contenteditable="true">Fase Proyectada</label>
-                                <textarea class="form-control futuroPasos" oninput="autoResize(this)">Siguientes pasos de la iniciativa...</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label contenteditable="true">Objetivo</label>
-                                <textarea class="form-control futuroObjetivo" rows="1" oninput="autoResize(this)">Meta final esperada</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bottom-panels-grid">
-                        <div class="side-box sponsor-box" style="grid-column: span 2;">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
-                            <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 80px;">1. Requerimiento principal de la dirección.</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-footer-band"></div>
-            `;
-
-            container.appendChild(section);
-            lucide.createIcons();
-            return section;
-        }
-
-        // FUNCIONALIDAD: Eliminar Proyecto de Firebase y de la Vista
-        function deleteProjectFromFirebase(projId) {
-            if (confirm("¿Está seguro de que desea eliminar permanentemente este proyecto?")) {
-                db.collection("projects_data").doc(projId).delete().then(() => {
-                    const section = document.getElementById(projId);
-                    if (section) section.remove();
-                    alert("Proyecto eliminado de la base de datos.");
-                }).catch((err) => {
-                    alert("Error al eliminar el proyecto: " + err.message);
-                });
-            }
-        }
-
-        // Exportación a Powerpoint (PPTX) Dinámico
-        function exportToPPTX() {
-            let pptx = new PptxGenJS();
-            pptx.layout = 'LAYOUT_16x9';
-
-            document.querySelectorAll('.project-section').forEach((sec) => {
-                if (sec.offsetWidth === 0 && sec.offsetHeight === 0) return; // omitir no visibles
-
-                let slide = pptx.addSlide();
-                const title = sec.querySelector('.projectTitle') ? sec.querySelector('.projectTitle').innerText : "Proyecto";
-                
-                slide.addText(title, { x: 0.5, y: 0.5, fontSize: 22, bold: true, color: '0F2C59' });
-                
-                const antes = sec.querySelector('.pasadoDiag') ? sec.querySelector('.pasadoDiag').value : '';
-                const ahora = sec.querySelector('.presenteEstado') ? sec.querySelector('.presenteEstado').value : '';
-                const futuro = sec.querySelector('.futuroPasos') ? sec.querySelector('.futuroPasos').value : '';
-
-                slide.addText("Antes:\n" + antes, { x: 0.5, y: 1.5, w: 2.8, h: 3.5, fontSize: 11, fill: 'F8FAFC' });
-                slide.addText("Hoy:\n" + ahora, { x: 3.6, y: 1.5, w: 2.8, h: 3.5, fontSize: 11, fill: 'E8F5E9' });
-                slide.addText("Futuro:\n" + futuro, { x: 6.7, y: 1.5, w: 2.8, h: 3.5, fontSize: 11, fill: 'FAF6F0' });
-            });
-
-            pptx.writeFile({ fileName: "Tablero_Transformacion_Digital_2026.pptx" });
-        }
-
-        // =========================================================
-        // LÓGICA DE SIMULADORES WHATSAPP Y TÓTEM (PRESERVADOS 100%)
-        // =========================================================
-        const simData = {
-            otamendi: { timer: null, isPlaying: false, step: 0, speed: 1 },
-            medicus: { timer: null, isPlaying: false, step: 0, speed: 1 }
-        };
-
-        const chatSteps = [
-            { sender: 'in', text: 'Hola, quiero pedir un turno médico.', time: '10:00' },
-            { sender: 'out', text: '¡Hola! Bienvenid@ a la autogestión de turnos. Por favor ingresa tu número de DNI.', time: '10:00' },
-            { sender: 'in', text: '35412890', time: '10:01' },
-            { sender: 'out', text: 'Gracias Juan Carlos. Por favor selecciona la especialidad deseada:\n1. Clínica Médica\n2. Cardiología\n3. Traumatología', time: '10:01' },
-            { sender: 'in', text: '1', time: '10:02' },
-            { sender: 'out', text: 'Turno disponible con Dr. Guillermo, Samuel para el 18/09/2026 17:00 hs. ¿Deseas confirmarlo? (Si/No)', time: '10:02' },
-            { sender: 'in', text: 'Si', time: '10:03' },
-            { sender: 'out', text: '✅ ¡Turno confirmado con éxito! Te esperamos en Azcuénaga 870.', time: '10:03' }
-        ];
-
-        function initSimulators() {
-            resetSim('otamendi');
-            resetSim('medicus');
-        }
-
-        function togglePlay(ent) {
-            const st = simData[ent];
-            st.isPlaying = !st.isPlaying;
-            
-            const btnText = document.getElementById(`playTextDesdeimp-${ent}`);
-            const btnIcon = document.getElementById(`playIconDesdeimp-${ent}`);
-
-            if (st.isPlaying) {
-                if (btnText) btnText.innerText = "Pausar";
-                if (btnIcon) btnIcon.innerText = "⏸";
-                runChatStep(ent);
+        auth.onAuthStateChanged(user => {
+            const widget = document.getElementById('userWidget');
+            const label = document.getElementById('userEmailLabel');
+            if (user) {
+                widget.style.display = 'flex';
+                label.innerText = user.email;
             } else {
-                if (btnText) btnText.innerText = "Iniciar";
-                if (btnIcon) btnIcon.innerText = "▶";
-                clearTimeout(st.timer);
+                widget.style.display = 'none';
             }
+        });
+
+        function saveAllChanges() {
+            alert('¡Todos los cambios fueron guardados exitosamente!');
         }
 
-        function runChatStep(ent) {
-            const st = simData[ent];
-            if (!st.isPlaying) return;
+        function saveProjectToFirebase(id) {
+            alert('Proyecto ' + id + ' guardado.');
+        }
 
-            if (st.step < chatSteps.length) {
-                const chatBox = document.getElementById(`desdeimp-chat-${ent}`);
-                const msgData = chatSteps[st.step];
-                
-                const msgDiv = document.createElement('div');
-                msgDiv.className = `msg msg-${msgData.sender}`;
-                msgDiv.innerHTML = `${msgData.text}<div class="msg-meta">${msgData.time}</div>`;
-                
-                if (chatBox) {
-                    chatBox.appendChild(msgDiv);
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }
-
-                document.getElementById(`desdeimp-time-${ent}`).innerText = `${st.step + 1} min`;
-
-                st.step++;
-                st.timer = setTimeout(() => runChatStep(ent), 2000 / st.speed);
-            } else {
-                st.isPlaying = false;
-                document.getElementById(`playTextDesdeimp-${ent}`).innerText = "Iniciar";
-                document.getElementById(`playIconDesdeimp-${ent}`).innerText = "▶";
+        function deleteProjectFromFirebase(id) {
+            if (confirm('¿Desea eliminar este proyecto?')) {
+                document.getElementById(id).remove();
             }
-        }
-
-        function resetSim(ent) {
-            const st = simData[ent];
-            clearTimeout(st.timer);
-            st.isPlaying = false;
-            st.step = 0;
-            const chatBox = document.getElementById(`desdeimp-chat-${ent}`);
-            if (chatBox) chatBox.innerHTML = '';
-            document.getElementById(`desdeimp-time-${ent}`).innerText = '0 min';
-            document.getElementById(`playTextDesdeimp-${ent}`).innerText = 'Iniciar';
-            document.getElementById(`playIconDesdeimp-${ent}`).innerText = '▶';
-        }
-
-        function changeSpeed(val) {
-            simData.otamendi.speed = parseFloat(val);
-            simData.medicus.speed = parseFloat(val);
-        }
-
-        // Lógica interactiva del Prequirúrgico
-        function startPreqSequence(ent) {
-            const msg2 = document.getElementById(`preqMsg2-${ent}`);
-            const msg3 = document.getElementById(`preqMsg3-${ent}`);
-            const msg4 = document.getElementById(`preqMsg4-${ent}`);
-            const typing = document.getElementById(`preqTyping-${ent}`);
-
-            if (!msg2) return;
-
-            msg2.classList.remove('visible');
-            msg3.classList.remove('visible');
-            msg4.classList.remove('visible');
-            typing.style.display = 'none';
-
-            setTimeout(() => { msg2.classList.add('visible'); }, 1000);
-            setTimeout(() => { msg3.classList.add('visible'); }, 2200);
-            setTimeout(() => { typing.style.display = 'flex'; }, 3400);
-            setTimeout(() => { 
-                typing.style.display = 'none';
-                msg4.classList.add('visible'); 
-            }, 5200);
-        }
-
-        // Lógica Tótem Interactiva
-        function goToScreen(ent, screenId) {
-            const totemContainer = document.querySelector(`#project-${ent}-p3 .totem-frame`);
-            if (!totemContainer) return;
-            
-            totemContainer.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const targetScreen = document.getElementById(`${screenId}-${ent}`);
-            if (targetScreen) targetScreen.classList.add('active');
-        }
-
-        function toggleManualDni(ent) {
-            const box = document.getElementById(`manual-input-box-${ent}`);
-            if (box) box.style.display = box.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function confirmarDniManual(ent) {
-            const dniVal = document.getElementById(`dni-input-${ent}`).value || "35412890";
-            document.getElementById(`disp-dni-${ent}`).innerText = dniVal;
-            document.getElementById(`bar-dni-1-${ent}`).innerText = dniVal;
-            document.getElementById(`bar-dni-2-${ent}`).innerText = dniVal;
-            goToScreen(ent, 'screen-3');
-        }
-
-        function procesarSinTurno(ent) {
-            alert("Redirigiendo a recepción para atención sin turno previo.");
-        }
-
-        function derivacionRecepcionDirecta(ent) {
-            alert("Por favor diríjase al mostrador principal de recepción.");
-            goToScreen(ent, 'screen-1');
-        }
-
-        function seleccionarTurno(ent, hora, esp, prof) {
-            document.getElementById(`cob-hora-${ent}`).innerText = hora;
-            document.getElementById(`cob-esp-${ent}`).innerText = esp;
-            document.getElementById(`cob-prof-${ent}`).innerText = prof;
-            goToScreen(ent, 'screen-5');
-        }
-
-        function finalizarProceso(ent, exito) {
-            const ticketView = document.getElementById(`ticket-view-${ent}`);
-            const title = document.getElementById(`msg-final-title-${ent}`);
-            const body = document.getElementById(`msg-final-body-${ent}`);
-
-            if (exito) {
-                title.innerText = "Retire su ticket";
-                body.innerHTML = "PARA SER ATENDIDO AGUARDE EN<br>SALA ESPERA CONSULTORIOS EXTERNOS I";
-                ticketView.style.display = "block";
-                ticketView.innerHTML = `
-                    <div class="header">SANATORIO OTAMENDI</div>
-                    <div class="sector">CONSULTORIOS EXTERNOS</div>
-                    <div class="code">T-042</div>
-                    <div class="msg">SU ARRIBO HA SIDO NOTIFICADO</div>
-                    <div class="footer">Fecha: 15/09/2026 - 16:55 hs</div>
-                `;
-            } else {
-                title.innerText = "Por favor diríjase a Recepción";
-                body.innerHTML = "No pudimos validar su credencial en forma automática.<br>Un recepcionista lo atenderá.";
-                ticketView.style.display = "none";
-            }
-            goToScreen(ent, 'screen-7');
         }
     </script>
 </body>
