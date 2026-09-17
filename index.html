@@ -585,7 +585,7 @@
         textarea.form-control {
             resize: none;
             overflow-y: hidden;
-            min-height: 75px;
+            min-height: 45px;
             line-height: 1.5;
         }
 
@@ -619,8 +619,32 @@
         .call-extra-card .callExtraTitle1, .call-extra-card .callExtraTitle2, .call-extra-card .callExtraTitle3 { display:none !important; }
         .call-extra-card input[type="file"] { width:100%; padding:8px; border:1px solid #c7d5e2; border-radius:8px; background:#f7fafc; }
         .call-extra-card img { width:100% !important; height:300px !important; object-fit:contain; margin:10px 0 !important; border:1px solid #d7e1ea; border-radius:9px; background:#f8fafc; }
-        .call-extra-card textarea { width:100%; min-height:105px; border:1px solid #c7d5e2; border-radius:8px; padding:10px; resize:vertical; background:#fff; }
-        .call-extra-card:focus-within { border-color:#2f7db8; box-shadow:0 0 0 3px rgba(47,125,184,.12); }
+        
+        /* Contenedor editable de texto enriquecido que preserva negritas, formato Word y se autoajusta */
+        .call-extra-card [contenteditable="true"].call-extra-rich-text { 
+            width: 100%; 
+            min-height: 55px; 
+            border: 1px solid #c7d5e2; 
+            border-radius: 8px; 
+            padding: 10px; 
+            background: #fff; 
+            box-sizing: border-box;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--gris-oscuro);
+            outline: none;
+            overflow-x: hidden;
+            word-break: break-word;
+        }
+        .call-extra-card [contenteditable="true"].call-extra-rich-text:focus {
+            border-color: #2f7db8;
+            box-shadow: 0 0 0 3px rgba(47,125,184,.12);
+            background: #ffffff;
+        }
+        .call-extra-card [contenteditable="true"].call-extra-rich-text:empty:before {
+            content: attr(data-placeholder);
+            color: #a0aec0;
+        }
 
         .side-box h3 {
             font-size: 14px;
@@ -1293,12 +1317,257 @@
         @media (max-width: 900px) {
             .journey-grid, .bottom-panels-grid { grid-template-columns: 1fr; }
         }
-    
-        .call-extra-card { background:#fff; border:1px solid var(--gris-borde); border-radius:8px; padding:12px; }
-        .call-extra-card label { display:block; font-size:11px; font-weight:700; margin-bottom:5px; }
-.call-extra-card input[type=text], .call-extra-card input:not([type=file]) { display:block; width:100%; box-sizing:border-box; border:1px solid var(--gris-borde); border-radius:6px; padding:7px 9px; font-size:13px; font-weight:700; margin-bottom:8px; background:#fff; }
-        .call-extra-card input[type=file] { width:100%; font-size:10px; }
-        .call-extra-card textarea { min-height:55px; font-size:11px; resize:vertical; }
+
+        /* --- CONTENEDOR EN MISMA LÍNEA PARA GRÁFICO + TARJETAS A LA DERECHA --- */
+        .analytics-row-container {
+            margin: 4px 36px 8px 36px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        /* Gráfico Rediseñado Fiel a la Imagen Original */
+        .wait-time-chart {
+            padding: 20px 24px;
+            background: #fff;
+            border: 1px solid var(--gris-borde);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .chart-header {
+            margin-bottom: 16px;
+        }
+        .chart-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .chart-subtitle {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+        .wait-time-chart-inner {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 16px;
+            align-items: stretch;
+            flex: 1;
+        }
+        /* Bloques de métricas laterales izquierdos */
+        .wait-time-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+        }
+        .wait-time-summary-card {
+            border-radius: 8px;
+            border: 1px solid #bfdbfe;
+            background: #f0f7ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        .wait-time-summary-card .summary-value {
+            font-size: 22px;
+            line-height: 1;
+            font-weight: 800;
+            color: #0284c7;
+        }
+        .wait-time-summary-card .summary-label {
+            margin-top: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+        }
+        .wait-time-summary-card.reduction {
+            border-color: #bbf7d0;
+            background: #f0fdf4;
+        }
+        .wait-time-summary-card.reduction .summary-value {
+            color: #16a34a;
+            font-size: 20px;
+        }
+
+        /* Area del gráfico de barras con eje e íconos idénticos */
+        .chart-area-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .wait-time-bars {
+            height: 200px;
+            position: relative;
+            background: repeating-linear-gradient(to bottom, #e2e8f0 0px, #e2e8f0 1px, transparent 1px, transparent calc(100% / 8));
+            border-bottom: 2px solid #94a3b8;
+            margin-left: 45px;
+        }
+        /* Eje Y numérico (0 a 16 de a 2) */
+        .wait-time-y-axis {
+            position: absolute;
+            left: -28px;
+            top: -6px;
+            bottom: -6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #64748b;
+            font-size: 11px;
+            text-align: right;
+            font-weight: 500;
+        }
+        /* Título vertical "Minutos" */
+        .axis-label-y {
+            position: absolute;
+            left: -44px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 11px;
+            font-weight: 800;
+            color: #475569;
+            letter-spacing: 0.5px;
+        }
+        /* Línea divisoria central */
+        .chart-grid-divider {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #cbd5e1;
+        }
+        /* Fila de las barras */
+        .wait-time-bars-row {
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            position: relative;
+            z-index: 2;
+        }
+        .wait-time-bar-group {
+            height: 100%;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .wait-time-bar {
+            width: 48px;
+            border-radius: 0;
+            background: #93c5fd;
+            transition: height 0.3s ease;
+        }
+        .wait-time-bar.after {
+            background: #0284c7;
+        }
+        .wait-time-x-axis {
+            display: flex;
+            margin-left: 45px;
+            margin-top: 8px;
+        }
+        .wait-time-bar-label {
+            flex: 1;
+            font-size: 12px;
+            color: #475569;
+            text-align: center;
+            font-weight: 600;
+        }
+        .wait-time-axis-title {
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            text-align: center;
+        }
+
+        /* --- TARJETAS DEL UNIVERSO QUIRÚRGICO (A LA DERECHA) --- */
+        .universe-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 14px;
+        }
+        .universe-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            position: relative;
+        }
+        .universe-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .universe-card-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1.25;
+            max-width: 70%;
+        }
+        .universe-badge {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+        .badge-gray { background: #f1f5f9; color: #475569; }
+        .badge-green { background: #dcfce7; color: #15803d; }
+        .badge-pink { background: #ffe4e6; color: #e11d48; }
+
+        .universe-card-value {
+            font-size: 30px;
+            font-weight: 900;
+            color: #610d1f;
+            margin-top: 8px;
+            line-height: 1;
+        }
+        .universe-card-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+        .universe-progress-bg {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .universe-progress-bar {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .bar-blue { background: #2563eb; }
+        .bar-green { background: #10b981; }
+        .bar-red { background: #ef4444; }
+        .bar-darkgreen { background: #047857; }
+
+        @media (max-width: 1100px) {
+            .analytics-row-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .analytics-row-container { margin: 4px 16px 8px; }
+            .universe-cards-grid { grid-template-columns: 1fr; }
+        }
+
 </style>
 </head>
 <body>
@@ -1951,13 +2220,27 @@
 
                         </div>
 
+                        <!-- Bloque con contenedores enriquecidos contenteditable para preservar el formato al pegar texto desde Word -->
                         <div class="call-extra-fields" style="display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:12px;">
-  <div class="call-extra-card"><input type="file" accept="image/*" onchange="previewCallExtraImage(this, 1, 'otamendi-p1')"><img class="callExtraImg1" style="display:none; width:100%; height:300px; object-fit:contain; margin:8px 0; border-radius:6px;"><textarea class="callExtraText1 form-control" rows="5" placeholder="Texto..."></textarea></div>
-  <div class="call-extra-card"><input type="file" accept="image/*" onchange="previewCallExtraImage(this, 2, 'otamendi-p1')"><img class="callExtraImg2" style="display:none; width:100%; height:300px; object-fit:contain; margin:8px 0; border-radius:6px;"><textarea class="callExtraText2 form-control" rows="5" placeholder="Texto..."></textarea></div>
-  <div class="call-extra-card"><input type="file" accept="image/*" onchange="previewCallExtraImage(this, 3, 'otamendi-p1')"><img class="callExtraImg3" style="display:none; width:100%; height:300px; object-fit:contain; margin:8px 0; border-radius:6px;"><textarea class="callExtraText3 form-control" rows="5" placeholder="Texto..."></textarea></div>
-</div>
-<div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                          <div class="call-extra-card">
+                            <input type="file" accept="image/*" onchange="previewCallExtraImage(this, 1, 'otamendi-p1')">
+                            <img class="callExtraImg1" style="display:none; width:100%; height:300px; object-fit:contain; margin:8px 0; border-radius:6px;">
+                            <div class="callExtraText1 call-extra-rich-text" contenteditable="true" data-placeholder="Escribe o pega texto de Word aquí conservando formato..."></div>
+                          </div>
+                          <div class="call-extra-card">
+                            <input type="file" accept="image/*" onchange="previewCallExtraImage(this, 2, 'otamendi-p1')">
+                            <img class="callExtraImg2" style="display:none; width:100%; height:300px; object-fit:contain; margin:8px 0; border-radius:6px;">
+                            <div class="callExtraText2 call-extra-rich-text" contenteditable="true" data-placeholder="Escribe o pega texto de Word aquí conservando formato..."></div>
+                          </div>
+                          <div class="call-extra-card">
+                            <input type="file" accept="image/*" onchange="previewCallExtraImage(this, 3, 'otamendi-p1')">
+                            <img class="callExtraImg3" style="display:none; width:100%; height:300px; object-fit:contain; margin:8px 0; border-radius:6px;">
+                            <div class="callExtraText3 call-extra-rich-text" contenteditable="true" data-placeholder="Escribe o pega texto de Word aquí conservando formato..."></div>
+                          </div>
+                        </div>
+
+                        <div class="side-box sponsor-box">
+                            <h3><i data-lucide="award" size="16"></i> <span class="sponsorTitle" contenteditable="true">Requerimiento Sponsor</span></h3>
                             <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Validar propuesta de validación de identidad.
 2. Aprobación presupuestaria para inicio de Fase 2.</textarea>
                         </div>
@@ -2041,6 +2324,125 @@
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <!-- CONTENEDOR EN LA MISMA LÍNEA: GRÁFICO (IZQUIERDA) + TARJETAS UNIVERSO (DERECHA) -->
+                <div class="analytics-row-container">
+                    
+                    <!-- Lado Izquierdo: Gráfico con sus 3 Bloques -->
+                    <div class="wait-time-chart" aria-label="Análisis Pre Admisión Quirúrgica">
+                        <div class="chart-header">
+                            <div class="chart-title">Tiempo Promedio de Espera (minutos)</div>
+                            <div class="chart-subtitle">Evolución del tiempo medio de espera entre el 1.er período (Ene-Abr) y el 2.º período (May-Ago).</div>
+                        </div>
+
+                        <div class="wait-time-chart-inner">
+                            <div class="wait-time-summary">
+                                <div class="wait-time-summary-card">
+                                    <div class="summary-value">11,8 min</div>
+                                    <div class="summary-label">Promedio Previo (Ene - Abr)</div>
+                                </div>
+                                <div class="wait-time-summary-card">
+                                    <div class="summary-value">6,9 min</div>
+                                    <div class="summary-label">Promedio Posterior (May - Ago)</div>
+                                </div>
+                                <div class="wait-time-summary-card reduction">
+                                    <div class="summary-value">-41% (-4,9 min)</div>
+                                    <div class="summary-label">Reducción Tiempo Espera</div>
+                                </div>
+                            </div>
+
+                            <div class="chart-area-container">
+                                <div class="wait-time-bars">
+                                    <div class="axis-label-y">Minutos</div>
+                                    <div class="wait-time-y-axis">
+                                        <span>16</span><span>14</span><span>12</span><span>10</span><span>8</span><span>6</span><span>4</span><span>2</span><span>0</span>
+                                    </div>
+                                    <div class="chart-grid-divider"></div>
+
+                                    <div class="wait-time-bars-row">
+                                        <div class="wait-time-bar-group">
+                                            <div class="wait-time-bar" style="height: 73.75%;"></div>
+                                        </div>
+                                        <div class="wait-time-bar-group">
+                                            <div class="wait-time-bar after" style="height: 43.125%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wait-time-x-axis">
+                                    <div class="wait-time-bar-label">Enero a Abril</div>
+                                    <div class="wait-time-bar-label">Mayo a Agosto</div>
+                                </div>
+
+                                <div class="wait-time-axis-title">Período Evaluado</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lado Derecho: Cuatro Tarjetas del Universo Quirúrgico -->
+                    <div class="universe-cards-grid">
+                        <!-- Tarjeta 1: Universo Total -->
+                        <div class="universe-card">
+                            <div>
+                                <div class="universe-card-head">
+                                    <div class="universe-card-title">Universo Total</div>
+                                    <span class="universe-badge badge-gray">100%</span>
+                                </div>
+                                <div class="universe-card-value">3.039</div>
+                                <div class="universe-card-sub">Cirugías Programadas</div>
+                            </div>
+                            <div class="universe-progress-bg">
+                                <div class="universe-progress-bar bar-blue" style="width: 100%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 2: Con dato de Teléfono en Reserva -->
+                        <div class="universe-card">
+                            <div>
+                                <div class="universe-card-head">
+                                    <div class="universe-card-title">Con dato de Teléfono en Reserva</div>
+                                    <span class="universe-badge badge-green">65.28%</span>
+                                </div>
+                                <div class="universe-card-value">1.984</div>
+                                <div class="universe-card-sub">Con número compatible (≥ 8 dígitos)</div>
+                            </div>
+                            <div class="universe-progress-bg">
+                                <div class="universe-progress-bar bar-green" style="width: 65.28%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 3: Reservas con Teléfono Vacío -->
+                        <div class="universe-card">
+                            <div>
+                                <div class="universe-card-head">
+                                    <div class="universe-card-title">Reservas con Teléfono Vacío</div>
+                                    <span class="universe-badge badge-pink">34.72%</span>
+                                </div>
+                                <div class="universe-card-value">1.055</div>
+                                <div class="universe-card-sub">Sin dato de contacto en sistema</div>
+                            </div>
+                            <div class="universe-progress-bg">
+                                <div class="universe-progress-bar bar-red" style="width: 34.72%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 4: Contestaron -->
+                        <div class="universe-card">
+                            <div>
+                                <div class="universe-card-head">
+                                    <div class="universe-card-title">Contestaron</div>
+                                    <span class="universe-badge badge-pink">42.39%*</span>
+                                </div>
+                                <div class="universe-card-value">841</div>
+                                <div class="universe-card-sub">Contactos Efectivos (*sobre compatibles)</div>
+                            </div>
+                            <div class="universe-progress-bg">
+                                <div class="universe-progress-bar bar-darkgreen" style="width: 42.39%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="project-body">
@@ -2157,7 +2559,7 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                         </div>
 
                         <div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                            <h3><i data-lucide="award" size="16"></i> <span class="sponsorTitle" contenteditable="true">Requerimiento Sponsor</span></h3>
                             <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Optimizar circuito de carga quirúrgica.
 2. Autorizar Firma Electrónica Fase 2.</textarea>
                         </div>
@@ -2418,7 +2820,7 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                         </div>
 
                         <div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                            <h3><i data-lucide="award" size="16"></i> <span class="sponsorTitle" contenteditable="true">Requerimiento Sponsor</span></h3>
                             <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Flexibilizar reglas de restricción para admisión.
 2. Aprobar instructivos de primera vez.</textarea>
                         </div>
@@ -2665,7 +3067,7 @@ Nos comunicamos por su reserva quirúrgica. Le recordamos los requerimientos par
                         </div>
 
                         <div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor Medicus</h3>
+                            <h3><i data-lucide="award" size="16"></i> <span class="sponsorTitle" contenteditable="true">Requerimiento Sponsor Medicus</span></h3>
                             <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Validar reglas de validación para socios corporativos.
 2. Aprobación presupuestaria para Fase 2 Cartilla.</textarea>
                         </div>
@@ -2858,7 +3260,7 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                         </div>
 
                         <div class="side-box sponsor-box">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor Medicus</h3>
+                            <h3><i data-lucide="award" size="16"></i> <span class="sponsorTitle" contenteditable="true">Requerimiento Sponsor Medicus</span></h3>
                             <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 100px;">1. Validar reglas de validación para socios corporativos.
 2. Aprobación presupuestaria para Fase 2 Cartilla.</textarea>
                         </div>
@@ -2888,6 +3290,9 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
         // Inicialización de la app
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
+
+            document.querySelectorAll('textarea').forEach(el => autoResize(el));
+
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     document.getElementById("loginOverlay").style.display = "none";
@@ -2955,8 +3360,9 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             });
         }
 
-        // Ajuste de altura dinámica de áreas de texto
+        // Ajuste de altura dinámica de áreas de texto según el contenido exacto
         function autoResize(textarea) {
+            if (!textarea) return;
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 'px';
         }
@@ -3072,7 +3478,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             const reader = new FileReader();
             reader.onload = function(e) {
                 img.src = e.target.result; img.style.display = 'block';
-                // Comprime para mantener el documento de Firestore dentro de límites razonables.
                 const image = new Image();
                 image.onload = function() {
                     const max = 900; const scale = Math.min(1, max / Math.max(image.width, image.height));
@@ -3085,12 +3490,11 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             reader.readAsDataURL(file);
         }
 
-        // FUNCIONALIDAD: Guardar Proyecto completo en Firebase (Soporta dinámicos y nativos)
+        // FUNCIONALIDAD: Guardar Proyecto completo en Firebase salvaguardando HTML formateado
         function saveProjectToFirebase(sectionId, showAlert = true) {
             const section = document.getElementById(sectionId);
             if (!section) return;
 
-            // Mapeo completo de todos los elementos editables dentro de la sección del proyecto
             const dataToSave = {
                 id: sectionId,
                 title: section.querySelector('.projectTitle') ? section.querySelector('.projectTitle').innerText : '',
@@ -3102,10 +3506,11 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                 presenteMetrica: section.querySelector('.presenteMetrica') ? section.querySelector('.presenteMetrica').value : '',
                 futuroPasos: section.querySelector('.futuroPasos') ? section.querySelector('.futuroPasos').value : '',
                 futuroObjetivo: section.querySelector('.futuroObjetivo') ? section.querySelector('.futuroObjetivo').value : '',
+                sponsorTitle: section.querySelector('.sponsorTitle') ? section.querySelector('.sponsorTitle').innerText.trim() : 'Requerimiento Sponsor',
                 sponsorReq: section.querySelector('.sponsorReq') ? section.querySelector('.sponsorReq').value : '',
                 callExtraFields: section.id === 'project-otamendi-p1' ? [1,2,3].map(i => ({
                     title: section.querySelector('.callExtraTitle'+i) ? section.querySelector('.callExtraTitle'+i).value : 'Campo '+i,
-                    text: section.querySelector('.callExtraText'+i) ? section.querySelector('.callExtraText'+i).value : '',
+                    textHtml: section.querySelector('.callExtraText'+i) ? section.querySelector('.callExtraText'+i).innerHTML : '',
                     image: section.querySelector('.callExtraImg'+i) ? section.querySelector('.callExtraImg'+i).src : ''
                 })) : [],
                 kpis: [],
@@ -3115,7 +3520,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            // Recopilar todos los KPIs dinámicos
             section.querySelectorAll('.kpi-card-highlight:not(.fixed-status)').forEach(card => {
                 const l = card.querySelector('.dynamicKpiLabel');
                 const v = card.querySelector('.dynamicKpiVal');
@@ -3133,7 +3537,7 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                 });
         }
 
-        // FUNCIONALIDAD: Guardar todos los cambios desde el bloque superior de Iniciativas
+        // FUNCIONALIDAD: Guardar todos los cambios
         async function saveAllChanges() {
             if (!auth.currentUser) {
                 document.getElementById("loginOverlay").style.display = "flex";
@@ -3150,7 +3554,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             }
 
             try {
-                // Guardar títulos y métricas del bloque superior de Iniciativas.
                 const hero = document.querySelector('.hero-banner');
                 const globalData = {
                     title: hero?.querySelector('.hero-title')?.innerText || '',
@@ -3164,7 +3567,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                 };
                 await db.collection('initiatives_data').doc('global').set(globalData, { merge: true });
 
-                // Guardar cada proyecto, verificando que todas las escrituras terminen correctamente.
                 const sections = Array.from(document.querySelectorAll('.project-section'));
                 await Promise.all(sections.map(section => saveProjectToFirebase(section.id, false)));
 
@@ -3181,7 +3583,7 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             }
         }
 
-        // Cargar datos del bloque superior de Iniciativas desde Firebase
+        // Cargar datos de la cabecera
         function loadGlobalInitiativesFromFirebase() {
             db.collection('initiatives_data').doc('global').get()
                 .then((doc) => {
@@ -3205,14 +3607,13 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                 .catch((error) => console.error('Error al cargar Iniciativas desde Firebase:', error));
         }
 
-        // FUNCIONALIDAD: Cargar Proyectos Guardados desde Firebase
+        // Cargar proyectos de Firebase preservando HTML con formato
         function loadAllProjectsFromFirebase() {
             db.collection("projects_data").get().then((snapshot) => {
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     let section = document.getElementById(doc.id);
                     
-                    // Si no existe, es un proyecto nuevo creado dinámicamente
                     if (!section) {
                         const entity = doc.id.includes('medicus') ? 'medicus' : 'otamendi';
                         section = createProjectDOMStructure(doc.id, entity, data.title || "Nuevo Proyecto");
@@ -3222,21 +3623,48 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                         if (data.title && section.querySelector('.projectTitle')) section.querySelector('.projectTitle').innerText = data.title;
                         if (data.subtitle && section.querySelector('.project-title-group p')) section.querySelector('.project-title-group p').innerText = data.subtitle;
                         if (data.tag && section.querySelector('.positive-impact-tag')) section.querySelector('.positive-impact-tag').innerText = data.tag;
-                        if (data.pasadoDiag && section.querySelector('.pasadoDiag')) section.querySelector('.pasadoDiag').value = data.pasadoDiag;
-                        if (data.pasadoMetrica && section.querySelector('.pasadoMetrica')) section.querySelector('.pasadoMetrica').value = data.pasadoMetrica;
-                        if (data.presenteEstado && section.querySelector('.presenteEstado')) section.querySelector('.presenteEstado').value = data.presenteEstado;
-                        if (data.presenteMetrica && section.querySelector('.presenteMetrica')) section.querySelector('.presenteMetrica').value = data.presenteMetrica;
-                        if (data.futuroPasos && section.querySelector('.futuroPasos')) section.querySelector('.futuroPasos').value = data.futuroPasos;
-                        if (data.futuroObjetivo && section.querySelector('.futuroObjetivo')) section.querySelector('.futuroObjetivo').value = data.futuroObjetivo;
-                        if (data.sponsorReq && section.querySelector('.sponsorReq')) section.querySelector('.sponsorReq').value = data.sponsorReq;
+                        
+                        if (data.pasadoDiag && section.querySelector('.pasadoDiag')) {
+                            section.querySelector('.pasadoDiag').value = data.pasadoDiag;
+                            autoResize(section.querySelector('.pasadoDiag'));
+                        }
+                        if (data.pasadoMetrica && section.querySelector('.pasadoMetrica')) {
+                            section.querySelector('.pasadoMetrica').value = data.pasadoMetrica;
+                            autoResize(section.querySelector('.pasadoMetrica'));
+                        }
+                        if (data.presenteEstado && section.querySelector('.presenteEstado')) {
+                            section.querySelector('.presenteEstado').value = data.presenteEstado;
+                            autoResize(section.querySelector('.presenteEstado'));
+                        }
+                        if (data.presenteMetrica && section.querySelector('.presenteMetrica')) {
+                            section.querySelector('.presenteMetrica').value = data.presenteMetrica;
+                            autoResize(section.querySelector('.presenteMetrica'));
+                        }
+                        if (data.futuroPasos && section.querySelector('.futuroPasos')) {
+                            section.querySelector('.futuroPasos').value = data.futuroPasos;
+                            autoResize(section.querySelector('.futuroPasos'));
+                        }
+                        if (data.futuroObjetivo && section.querySelector('.futuroObjetivo')) {
+                            section.querySelector('.futuroObjetivo').value = data.futuroObjetivo;
+                            autoResize(section.querySelector('.futuroObjetivo'));
+                        }
+                        if (data.sponsorTitle !== undefined && section.querySelector('.sponsorTitle')) section.querySelector('.sponsorTitle').innerText = data.sponsorTitle;
+                        if (data.sponsorReq !== undefined && section.querySelector('.sponsorReq')) {
+                            section.querySelector('.sponsorReq').value = data.sponsorReq;
+                            autoResize(section.querySelector('.sponsorReq'));
+                        }
+
                         if (section.id === 'project-otamendi-p1' && Array.isArray(data.callExtraFields)) {
                             data.callExtraFields.forEach((item, idx) => {
                                 const i = idx + 1;
                                 const title = section.querySelector('.callExtraTitle'+i);
-                                const text = section.querySelector('.callExtraText'+i);
+                                const textContainer = section.querySelector('.callExtraText'+i);
                                 const img = section.querySelector('.callExtraImg'+i);
                                 if (title) title.value = item.title || ('Campo ' + i);
-                                if (text) text.value = item.text || '';
+                                if (textContainer) {
+                                    // Soportar versión guardada anterior o versión formateada HTML
+                                    textContainer.innerHTML = item.textHtml || item.text || '';
+                                }
                                 if (img && item.image) { img.src = item.image; img.style.display = 'block'; }
                             });
                         }
@@ -3251,7 +3679,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                             updateStatusColor(projKey, sel);
                         }
 
-                        // Cargar KPIs dinámicos guardados
                         if (data.kpis && Array.isArray(data.kpis)) {
                             const projKey = doc.id.replace('project-', '');
                             const container = document.getElementById(`kpi-container-${projKey}`);
@@ -3281,11 +3708,12 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
                         }
                     }
                 });
+
                 lucide.createIcons();
             });
         }
 
-        // FUNCIONALIDAD: Crear un nuevo proyecto
+        // Crear nuevo proyecto
         function addNewProject(entity) {
             const projTitle = prompt("Ingrese el título del nuevo proyecto:", "Nuevo Proyecto " + (entity === 'otamendi' ? 'Otamendi' : 'Medicus'));
             if (!projTitle) return;
@@ -3293,11 +3721,10 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             const newProjId = `project-${entity}-custom-${Date.now()}`;
             createProjectDOMStructure(newProjId, entity, projTitle);
             
-            // Guardar inmediatamente en Firebase
             saveProjectToFirebase(newProjId);
         }
 
-        // Constructora HTML para Nuevos Proyectos Estructurados
+        // DOM para nuevos proyectos
         function createProjectDOMStructure(projId, entity, title) {
             const container = document.getElementById(`projectsContainer-${entity}`);
             const projKey = projId.replace('project-', '');
@@ -3414,7 +3841,7 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
 
                     <div class="bottom-panels-grid">
                         <div class="side-box sponsor-box" style="grid-column: span 2;">
-                            <h3 contenteditable="true"><i data-lucide="award" size="16"></i> Requerimiento Sponsor</h3>
+                            <h3><i data-lucide="award" size="16"></i> <span class="sponsorTitle" contenteditable="true">Requerimiento Sponsor</span></h3>
                             <textarea class="form-control sponsorReq" oninput="autoResize(this)" style="flex: 1; min-height: 80px;">1. Requerimiento principal de la dirección.</textarea>
                         </div>
                     </div>
@@ -3428,7 +3855,7 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             return section;
         }
 
-        // FUNCIONALIDAD: Eliminar Proyecto de Firebase y de la Vista
+        // Eliminar Proyecto
         function deleteProjectFromFirebase(projId) {
             if (confirm("¿Está seguro de que desea eliminar permanentemente este proyecto?")) {
                 db.collection("projects_data").doc(projId).delete().then(() => {
@@ -3441,13 +3868,13 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             }
         }
 
-        // Exportación a Powerpoint (PPTX) Dinámico
+        // Exportación PPTX
         function exportToPPTX() {
             let pptx = new PptxGenJS();
             pptx.layout = 'LAYOUT_16x9';
 
             document.querySelectorAll('.project-section').forEach((sec) => {
-                if (sec.offsetWidth === 0 && sec.offsetHeight === 0) return; // omitir no visibles
+                if (sec.offsetWidth === 0 && sec.offsetHeight === 0) return;
 
                 let slide = pptx.addSlide();
                 const title = sec.querySelector('.projectTitle') ? sec.querySelector('.projectTitle').innerText : "Proyecto";
@@ -3466,9 +3893,7 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             pptx.writeFile({ fileName: "Tablero_Transformacion_Digital_2026.pptx" });
         }
 
-        // =========================================================
-        // LÓGICA DE SIMULADORES WHATSAPP Y TÓTEM (PRESERVADOS 100%)
-        // =========================================================
+        // Simuladores WhatsApp & Tótem
         const simData = {
             otamendi: { timer: null, isPlaying: false, step: 0, speed: 1 },
             medicus: { timer: null, isPlaying: false, step: 0, speed: 1 }
@@ -3553,7 +3978,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             simData.medicus.speed = parseFloat(val);
         }
 
-        // Lógica interactiva del Prequirúrgico
         function startPreqSequence(ent) {
             const msg2 = document.getElementById(`preqMsg2-${ent}`);
             const msg3 = document.getElementById(`preqMsg3-${ent}`);
@@ -3576,7 +4000,6 @@ Le recordamos enviar la foto de su DNI y credencial para agilizar su atención e
             }, 5200);
         }
 
-        // Lógica Tótem Interactiva
         function goToScreen(ent, screenId) {
             const totemContainer = document.querySelector(`#project-${ent}-p3 .totem-frame`);
             if (!totemContainer) return;
